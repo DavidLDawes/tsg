@@ -10,7 +10,7 @@
     <button onclick="generateSystem()">Generate</button>
     <p id="numStars"></p>
     <p id="Stars"></p>
-    <p id="Planets"></p>
+    <textarea rows=20 cols=64 id="Planets"></textarea>
 
     <script>
         starTypes = Array("Type A ", "Type F ", "Type G ", "Type K ", "Type M ", "Type L ")
@@ -19,6 +19,8 @@
         Moderate_Companion = false
         Distant_Companion = false
         Close_Companion = false
+        num_GasGiants = 0
+        num_AsteroidBelts = 0
 
         function generateSystem() {
             getStarsNum();
@@ -27,19 +29,19 @@
         }
 
         function getStarsNum() {
-            document.getElementById('Planets').textContent = ""
+            document.getElementById('Planets').innerHTML = ""
             z15 = zero2fifteen()
             switch(true) {
             case z15 > 12:
-                document.getElementById('numStars').textContent = "3"
+                document.getElementById('numStars').innerHTML = "3"
                 break;
             case z15 > 7:
-                document.getElementById('numStars').textContent = "2"
+                document.getElementById('numStars').innerHTML = "2"
                 break;
             case z15 < 8:
-                document.getElementById('numStars').textContent = "1"
+                document.getElementById('numStars').innerHTML = "1"
             default:
-                document.getElementById('numStars').textContent = "1"
+                document.getElementById('numStars').innerHTML = "1"
                 break;
             }
         }
@@ -48,26 +50,26 @@
             z10 = zero2ten()
             switch (true) {
             case z10==0:
-                document.getElementById('Stars').textContent = starTypes[0]
+                document.getElementById('Stars').innerHTML = starTypes[0]
                 break;
             case z10==1:
-                document.getElementById('Stars').textContent = starTypes[1]
+                document.getElementById('Stars').innerHTML = starTypes[1]
                 break;
             case z10==2:
-                document.getElementById('Stars').textContent = starTypes[2]
+                document.getElementById('Stars').innerHTML = starTypes[2]
                 break;
             case z10==3:
-                document.getElementById('Stars').textContent = starTypes[3]
+                document.getElementById('Stars').innerHTML = starTypes[3]
                 break;
             case z10 > 3:
-                document.getElementById('Stars').textContent = starTypes[4]
+                document.getElementById('Stars').innerHTML = starTypes[4]
                 break;
             default:
-                document.getElementById('Stars').textContent = starTypes[3]
+                document.getElementById('Stars').innerHTML = starTypes[3]
                 break;
             }
-            if (document.getElementById('numStars').textContent > "1") {
-                num = document.getElementById('numStars').textContent - "0";
+            if (document.getElementById('numStars').innerHTML > "1") {
+                num = document.getElementById('numStars').innerHTML - "0";
                 nextOrbit = "";
                 for (i = 1; i < num; i++) {
                     z5 = zero2five();
@@ -95,24 +97,24 @@
                     }
                     switch (zero2five()) {
                     case 0:
-                        document.getElementById('Stars').textContent = document.getElementById('Stars').textContent + ", secondary " + starTypes[0] + " in " + nextOrbit
+                        document.getElementById('Stars').innerHTML = document.getElementById('Stars').innerHTML + ", secondary " + starTypes[0] + " in " + nextOrbit
                         break;
                     case 1:
-                        document.getElementById('Stars').textContent = document.getElementById('Stars').textContent + ", secondary " + starTypes[1] + " in " + nextOrbit
+                        document.getElementById('Stars').innerHTML = document.getElementById('Stars').innerHTML + ", secondary " + starTypes[1] + " in " + nextOrbit
                         break;
                     case 2:
-                        document.getElementById('Stars').textContent = document.getElementById('Stars').textContent + ", secondary " + starTypes[2] + " in " + nextOrbit
+                        document.getElementById('Stars').innerHTML = document.getElementById('Stars').innerHTML + ", secondary " + starTypes[2] + " in " + nextOrbit
                         break;
                     case 3:
-                        document.getElementById('Stars').textContent = document.getElementById('Stars').textContent + ", secondary " + starTypes[3] + " in " + nextOrbit
+                        document.getElementById('Stars').innerHTML = document.getElementById('Stars').innerHTML + ", secondary " + starTypes[3] + " in " + nextOrbit
                         break;
                     case 4:
                     case 5:
                     case 6:
-                        document.getElementById('Stars').textContent = document.getElementById('Stars').textContent + ", secondary " + starTypes[4] + " in " + nextOrbit
+                        document.getElementById('Stars').innerHTML = document.getElementById('Stars').innerHTML + ", secondary " + starTypes[4] + " in " + nextOrbit
                         break;
                     default:
-                        document.getElementById('Stars').textContent = document.getElementById('Stars').textContent + ", secondary " + starTypes[3] + " in " + nextOrbit
+                        document.getElementById('Stars').innerHTML = document.getElementById('Stars').innerHTML + ", secondary " + starTypes[3] + " in " + nextOrbit
                         break;
                     }
                 }
@@ -121,30 +123,82 @@
 
         // that finsihes the stars, next are planets and asteroid belts
         function getPlanets() {
+            Epistellar_Planets = 0;
+            Inner_Planets = 0;
+            Outer_Planet = 0;
+            if (Close_Companion) {
+                Epistellar_Planets = 0;
+	        } else {
+		        Epistellar_Planets = zero2five() - 2;
+                if (Epistellar_Planets < 0) {
+                    s.Epistellar_Planets = 0;
+                }
+                if (Epistellar_Planets > 2) {
+                    Epistellar_Planets = 2;
+                }
+                document.getElementById('Planets').innerHTML = document.getElementById('Planets').innerHTML + "Epistellar planets:\n";
+                for (i=0; i<Epistellar_Planets; i++) {
+                    getPlanet();
+                }
+            }
+            Inner_Planets = zero2five();
+            if (Inner_Planets < 0) {
+                Inner_Planets = 0;
+            }
+            if (Inner_Planets > 0) {
+                document.getElementById('Planets').innerHTML = document.getElementById('Planets').innerHTML + "Inner planets:\n";
+                for (i = 0; i < Inner_Planets; i++) {
+                    getPlanet();
+                }
+            }
+
+            Outer_Planets = zero2five();
+            if (Moderate_Companion) {
+                Outer_Planet--
+            }
+            if (Outer_Planets < 0) {
+                Outer_Planets = 0;
+            }
+            if (Outer_Planets > 0) {
+                document.getElementById('Planets').innerHTML = document.getElementById('Planets').innerHTML + "Outer planets:\n";
+                for (i = 0; i < Outer_Planets; i++) {
+                    getPlanet();
+                }
+            }
+        }
+
+        // get a single planet and its possible satellites
+        function getPlanet() {
             delta = 0
-            if (document.getElementById('Stars').textContent == starTypes[5]) {
+            firstpass = true
+            if (document.getElementById('Stars').innerHTML == starTypes[5]) {
                 delta = -1
             }
             z2d = zero2five() + delta
             switch (true) {
             case z2d < 1:
                 if (zero2five() > 3) {
-                    document.getElementById('Planets').textContent = document.getElementById('Planets').textContent + ", " + planetTypes[0] + " Mostly Dwarf planetoids, one " + planetTypes[1];
+                    document.getElementById('Planets').innerHTML = document.getElementById('Planets').innerHTML + planetTypes[0] + " Mostly Dwarf planetoids, one " + planetTypes[1] + "\n";
+                    num_Asteroids++
                 } else {
-                    document.getElementById('Planets').textContent = document.getElementById('Planets').textContent + ", " + planetTypes[0];
+                    document.getElementById('Planets').innerHTML = document.getElementById('Planets').innerHTML + planetTypes[0] + "\n";
+                    num_Asteroids++
                 }
+                break;
             case z2d == 1:
                 if (zero2five() > 4) {
-                    document.getElementById('Planets').textContent = document.getElementById('Planets').textContent + ", " + planetTypes[1], " Satellite " + planetTypes[1];
+                    document.getElementById('Planets').innerHTML = document.getElementById('Planets').innerHTML + planetTypes[1], " Satellite " + planetTypes[1] + "\n";
                 } else {
-                    document.getElementById('Planets').textContent = document.getElementById('Planets').textContent + ", " + planetTypes[1];
+                    document.getElementById('Planets').innerHTML = document.getElementById('Planets').innerHTML + planetTypes[1] + "\n";;
                 }
+                break;
             case z2d == 2:
                 if (zero2five() > 3) {
-                    document.getElementById('Planets').textContent = document.getElementById('Planets').textContent + ", " + planetTypes[2] + " Satellite " + planetTypes[1]
+                    document.getElementById('Planets').innerHTML = document.getElementById('Planets').innerHTML + planetTypes[2] + " Satellite " + planetTypes[1] + "\n";
                 } else {
-                    document.getElementById('Planets').textContent = document.getElementById('Planets').textContent + ", " + planetTypes[2]
+                    document.getElementById('Planets').innerHTML = document.getElementById('Planets').innerHTML + planetTypes[2] + "\n";
                 }
+                break;
             case z2d == 3:
                 numSat = zero2five() - 2
                 if (numSat < 0) {
@@ -155,48 +209,56 @@
                     if (zero2five() < 5) {
                         // All satelites are dwarfs
                         if (numSat == 1) {
-                            document.getElementById('Planets').textContent = document.getElementById('Planets').textContent + ", " + planetTypes[3] + " Sattelite " + planetTypes[1]
+                            document.getElementById('Planets').innerHTML = document.getElementById('Planets').innerHTML + planetTypes[3] + " Sattelite " + planetTypes[1] + "\n";
                         } else {
-                            document.getElementById('Planets').textContent = document.getElementById('Planets').textContent + ", " + planetTypes[3] + " Sattelite " + planetTypes[1] + numSat + "x " + planetTypes[1]
+                            document.getElementById('Planets').innerHTML = document.getElementById('Planets').innerHTML + planetTypes[3] + " Sattelite " + planetTypes[1] + numSat + "x " + planetTypes[1] + "\n";
                         }
                     } else {
                         // One satellite is terrestrial
                         if (numSat == 1) {
-                            document.getElementById('Planets').textContent = document.getElementById('Planets').textContent + planetTypes[3] + " Satellite " + planetTypes[1]
+                            document.getElementById('Planets').innerHTML = document.getElementById('Planets').innerHTML + planetTypes[3] + " Satellite " + planetTypes[1]  + "\n";
                         } else if (numSat == 2) {
-                            document.getElementById('Planets').textContent = document.getElementById('Planets').textContent + planetTypes[3] + " Satellite " + planetTypes[2] + " & " + planetTypes[1]
+                            document.getElementById('Planets').innerHTML = document.getElementById('Planets').innerHTML + planetTypes[3] + " Satellite " + planetTypes[2] + " & " + planetTypes[1] + "\n";
                         } else {
-                            document.getElementById('Planets').textContent = document.getElementById('Planets').textContent + planetTypes[3] + " Satellite " + planetTypes[2] + numSat + "x " + planetTypes[1]
+                            document.getElementById('Planets').innerHTML = document.getElementById('Planets').innerHTML + planetTypes[3] + " Satellite " + planetTypes[2] + numSat + "x " + planetTypes[1] + "\n";
                         }
                     }
                 } else {
-                    document.getElementById('Planets').textContent = document.getElementById('Planets').textContent + planetTypes[3]
+                    document.getElementById('Planets').innerHTML = document.getElementById('Planets').innerHTML + planetTypes[3] + "\n";
                 }
+                break;
             case z2d < 7:
                 numSat = zero2five() + 1
                 if (zero2five() < 5) {
                     // All satelites are dwarfs
                     if (numSat == 1) {
-                        document.getElementById('Planets').textContent = document.getElementById('Planets').textContent + planetTypes[4] + " Sattelite " + planetTypes[1]
+                        document.getElementById('Planets').innerHTML = document.getElementById('Planets').innerHTML + planetTypes[4] + " Sattelite " + planetTypes[1] + "\n";
+                        num_GasGiants++
                     } else {
-                        document.getElementById('Planets').textContent = document.getElementById('Planets').textContent + planetTypes[4] + " Satellite " + numSat + "x " + planetTypes[1]
+                        document.getElementById('Planets').innerHTML = document.getElementById('Planets').innerHTML + planetTypes[4] + " Satellite " + numSat + "x " + planetTypes[1] + "\n";
+                        num_GasGiants++
                     }
                 } else {
                     // One satellite is terrestrial
                     if (numSat == 1) {
-                        document.getElementById('Planets').textContent = document.getElementById('Planets').textContent + planetTypes[4] + " Satellite " + planetTypes[2]
+                        document.getElementById('Planets').innerHTML = document.getElementById('Planets').innerHTML + planetTypes[4] + " Satellite " + planetTypes[2] + "\n";
+                        num_GasGiants++
                     } else if (numSat == 2) {
-                        document.getElementById('Planets').textContent = document.getElementById('Planets').textContent + planetTypes[4] + " Satellites " + planetTypes[2] + " & " + planetTypes[1]
+                        document.getElementById('Planets').innerHTML = document.getElementById('Planets').innerHTML + planetTypes[4] + " Satellites " + planetTypes[2] + " & " + planetTypes[1] + "\n";
+                        num_GasGiants++
                     } else {
-                        document.getElementById('Planets').textContent = document.getElementById('Planets').textContent + planetTypes[4] + " Sattelites " + planetTypes[2] + " & " + numSat + "x " + planetTypes[1]
+                        document.getElementById('Planets').innerHTML = document.getElementById('Planets').innerHTML + planetTypes[4] + " Sattelites " + planetTypes[2] + " & " + numSat + "x " + planetTypes[1] + "\n";
+                        num_GasGiants++
                     }
                 }
+                break;
             default:
                 if (zero2five() > 3) {
-                    document.getElementById('Planets').textContent = document.getElementById('Planets').textContent + planetTypes[2], " Satellite " + planetTypes[1]
+                    document.getElementById('Planets').innerHTML = document.getElementById('Planets').innerHTML + planetTypes[2], " Satellite " + planetTypes[1] + "\n";
                 } else {
-                    document.getElementById('Planets').textContent = document.getElementById('Planets').textContent + planetTypes[2]
+                    document.getElementById('Planets').innerHTML = document.getElementById('Planets').innerHTML + planetTypes[2] + "\n";
                 }
+                break;
             }
         }
 
