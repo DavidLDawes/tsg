@@ -8,40 +8,80 @@
 <body>
     <h1>System Generator</h1>
     <button onclick="generateSystem()">Generate</button>
-    <p id="numStars"></p>
     <p id="Stars"></p>
-    <textarea rows=20 cols=64 id="Planets"></textarea>
-
+    <textarea rows=8 cols=64 id="Planets"></textarea>
+    <p id="UWP">UWP</p>
+    <p id="Port">Starport</p>
+    <p id="Size">Size</p>
+    <p id="Atmos">Atmosphere</p>
+    <p id="Hydro">Hydrology</p>
+    <p id="Pop">Population</p>
+    <p id="Law">Law Level</p>
+    <p id="Gov">Government Type</p>
+    <p id="Tech">Tech Level</p>
     <script>
-        starTypes = Array("Type A ", "Type F ", "Type G ", "Type K ", "Type M ", "Type L ")
+        starTypes = Array("Type A", "Type F", "Type G", "Type K", "Type M", "Type L")
         orbitTypes = Array("Tight orbit", "Close orbit", "Moderate orbit", "Distant orbit")
         planetTypes = Array("Asteroid Belt", "Dwarf Planet", "Terrestrial Planet", "Helian Planet", "Jovian Planet", "Companion Star")
+
+        sizeDetails = Array("800 km", "1,600 km", "3,200 km", "4,800 km", "6,400 km", "8,000 km", "9,600 km", "11,200 km", "12,800 km", "14,400 km", "16,000 km")
+        gravDetails = Array("Negligible", "0.05G", "0.15G", "0.25G", "0.35G", "0.45G", "0.7G", "0.9G", "1.0G", "1.25G", "1.4G")
+        gDetails = Array(0.0, 0.05, 0.15, 0.25, 0.35, 0.45, 0.7, 0.9, 1.0, 1.25, 1.4)
+        tl = Array("0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F", "G", "H", "J", "K", "L", "M", "N", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z")	
+
+        atmosphereDetails = Array("None", "Trace", "Very Thin, Tainted", "Very Thin", "Thin, Tainted", "Thin", "Standard", "Standard, Tainted", "Dense", "Dense, Tainted", "Exotic", "Corrosive", "Insidious", "Dense", "Thin", "Unusual")
+        atmospherePressureDetails = Array("0.00", "0.001 to 0.09", "0.1 to 0.42", "0.1 to 0.42", "0.43 to 0.7", "0.43 to 0.7", "0.71 to 1.49", "0.71 to 1.49", "1.5 to 2.5", "1.5 to 2.5", "Varies", "Varies", "Varies", "High", "Low", "Varies", "Varies")
+        atmosphereEquipmentDetails = Array("Vacc Suit", "Vacc Suit", "Respirator, Filter", "Respirator", "Respirator, Filter", "Respirator", "", "Filter", "", "Filter", "Air Supply", "Vacc Suit", "Vacc Suit", "Pressure Suit", "Vacc Suit", "Varies")
+ 
+        hydroDetails= Array("Desert World", "Dry World", "A few small seas", "Small to medium seas", "Wet World", "Large Oceans", "Small seas and oceans.", "Earth-like world", "Water World", "A few small islands and archipelagos", "Almost Entirely Water")
+        hydroRangeDetails= Array("0% - 5%", "6% - 15%", "16% - 25%", "26% - 35%", "36% - 45%", "46% - 55%", "56% - 65%", "66% - 75%", "76% - 85%", "86% - 95%", "96% - 100%", 100, "Almost Entirely Water")
+
+        populationDetail = Array(10, 100, 1000, " 10,000 ", " 100,000 ", " 1,000,000 ", " 10,000,000 ", " 100,000,000 ", " 1,000,000,000 ", " 10,000,000,000 ")
+
+        // System details, determined randomly
+        numStars = 1
         Moderate_Companion = false
         Distant_Companion = false
         Close_Companion = false
         num_GasGiants = 0
         num_AsteroidBelts = 0
 
+        // World details, determined randomly
+        starport = "X"
+        size = 0
+        atmos = 0
+        hydro = 0
+        pop = 0
+        factor = 9
+        law = 0
+        gov = 0
+        splinters = 0
+        tech = 0
+        
         function generateSystem() {
             getStarsNum();
             getStarsTypes();
             getPlanets();
+            getWorld();
         }
 
         function getStarsNum() {
-            document.getElementById('Planets').innerHTML = ""
             z15 = zero2fifteen()
             switch(true) {
             case z15 > 12:
-                document.getElementById('numStars').innerHTML = "3"
+                numStars = 3
+                document.getElementById('Stars').innerHTML = "3 Star System, "
                 break;
             case z15 > 7:
-                document.getElementById('numStars').innerHTML = "2"
+                numStars = 2
+                document.getElementById('Stars').innerHTML = "2 Star System, "
                 break;
             case z15 < 8:
-                document.getElementById('numStars').innerHTML = "1"
+                numStars = 1
+                document.getElementById('Stars').innerHTML = "1 Star System, "
             default:
-                document.getElementById('numStars').innerHTML = "1"
+                numStars = 1
+                document.getElementById('Stars').innerHTML = "1 Star System, "
                 break;
             }
         }
@@ -50,28 +90,27 @@
             z10 = zero2ten()
             switch (true) {
             case z10==0:
-                document.getElementById('Stars').innerHTML = starTypes[0]
+                document.getElementById('Stars').innerHTML = document.getElementById('Stars').innerHTML + starTypes[0]
                 break;
             case z10==1:
-                document.getElementById('Stars').innerHTML = starTypes[1]
+                document.getElementById('Stars').innerHTML = document.getElementById('Stars').innerHTML + starTypes[1]
                 break;
             case z10==2:
-                document.getElementById('Stars').innerHTML = starTypes[2]
+                document.getElementById('Stars').innerHTML = document.getElementById('Stars').innerHTML + starTypes[2]
                 break;
             case z10==3:
-                document.getElementById('Stars').innerHTML = starTypes[3]
+                document.getElementById('Stars').innerHTML = document.getElementById('Stars').innerHTML + starTypes[3]
                 break;
             case z10 > 3:
-                document.getElementById('Stars').innerHTML = starTypes[4]
+                document.getElementById('Stars').innerHTML = document.getElementById('Stars').innerHTML + starTypes[4]
                 break;
             default:
-                document.getElementById('Stars').innerHTML = starTypes[3]
+                document.getElementById('Stars').innerHTML = document.getElementById('Stars').innerHTML + starTypes[3]
                 break;
             }
-            if (document.getElementById('numStars').innerHTML > "1") {
-                num = document.getElementById('numStars').innerHTML - "0";
+            if (numStars > "1") {
                 nextOrbit = "";
-                for (i = 1; i < num; i++) {
+                for (i = 1; i < numStars; i++) {
                     z5 = zero2five();
                     switch (true) {
                     case z5 < 2:
@@ -123,6 +162,7 @@
 
         // that finsihes the stars, next are planets and asteroid belts
         function getPlanets() {
+            document.getElementById('Planets').innerHTML = "";
             Epistellar_Planets = 0;
             Inner_Planets = 0;
             Outer_Planet = 0;
@@ -131,7 +171,7 @@
 	        } else {
 		        Epistellar_Planets = zero2five() - 2;
                 if (Epistellar_Planets < 0) {
-                    s.Epistellar_Planets = 0;
+                    Epistellar_Planets = 0;
                 }
                 if (Epistellar_Planets > 2) {
                     Epistellar_Planets = 2;
@@ -179,10 +219,10 @@
             case z2d < 1:
                 if (zero2five() > 3) {
                     document.getElementById('Planets').innerHTML = document.getElementById('Planets').innerHTML + planetTypes[0] + " Mostly Dwarf planetoids, one " + planetTypes[1] + "\n";
-                    num_Asteroids++
+                    num_AsteroidBelts++
                 } else {
                     document.getElementById('Planets').innerHTML = document.getElementById('Planets').innerHTML + planetTypes[0] + "\n";
-                    num_Asteroids++
+                    num_AsteroidBelts++
                 }
                 break;
             case z2d == 1:
@@ -262,23 +302,93 @@
             }
         }
 
+        function getWorld() {
+            getSize()
+            getAtmosphere()
+            getHydrology()
+            getPopulation()
+
+        }
+
+        function getSize() {
+        	size = zero2ten();
+        	document.getElementById('Size').innerHTML = "Size " + tl[size] + ", " + sizeDetails[size] + ", gravity " + gravDetails[size]
+        }
+
+        function getAtmosphere() {
+        	atmos = zero2ten() + size - 5;
+            if (atmos < 0) {atmos = 0}
+            if (atmos>15) {atmos = 15}
+        	document.getElementById('Atmos').innerText = "Atmosphere " + tl[atmos] + ", " + atmosphereDetails[atmos] + ", pressure " + atmospherePressureDetails[atmos] + ", equipment required: " + atmosphereEquipmentDetails[atmos]
+        }
+
+        function getHydrology() {
+            if (size < 2) {
+                hydro = 0
+            } else {
+                hydro = zero2ten() - 5 + size
+                switch (atmos) {
+                case 0:
+                case 1:
+                case 10:
+                case 11:
+                case 12:
+                    hydro = hydro - 4
+                }
+                if (hydro < 0) {
+                    hydro = 0
+                }
+                if (hydro > 10) {
+                    hydro = 10
+                }
+            }
+            document.getElementById('Hydro').innerText = "Hydrology " + tl[hydro] + ", " + hydroDetails[hydro] + ", covering " + hydroRangeDetails[hydro] + " of the surface"
+        }
+
+        function getPopulation() {
+            pop = zero2ten()
+            if (pop == 0) {
+                document.getElementById('Pop').innerText = "Population " + tl[pop] + " - Unpopulated"
+            } else {
+                factor = one2nine1d()
+                document.getElementById('Pop').innerText = "Population " + tl[pop] + " - " + populationDetail[pop-1] + " times " + factor
+            }
+        }
+        
+        // Assorted random functions
+        // Flip a coin
         function zero2one() {
             return Math.floor(Math.random() * 2);
         }
+
+        // Choose among 3 equally
         function zero2two() {
             return Math.floor(Math.random() * 3);
         }
+
+        // choose among 6 equally, effectively 1D6-1
         function zero2five() {
             return Math.floor(Math.random() * 6);
         }
+
+        // choose among 6 equally, 1D6
         function one2six() {
             return zero2five + 1;
         }
+
+        // choose by adding two dice (each 0-5) together, so 5 is most likely (1 im 6), 0 & 10 least (1 in 36 each)
         function zero2ten() {
             return Math.floor(Math.random() * 6) + Math.floor(Math.random() * 6);
         }
+
+        // choose by adding three dice (each 0-5) together, so 7 & 8 are most likely, 0 and 15 least (1 in 216)
         function zero2fifteen() {
             return Math.floor(Math.random() * 6) + Math.floor(Math.random() * 6) + Math.floor(Math.random() * 6);
+        }
+
+        // get a single digit, 1 to 9, all equally likely
+        function one2nine1d () {
+            return Math.floor(Math.random() * 9)
         }
 </script>
 </body>
