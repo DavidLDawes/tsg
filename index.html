@@ -19,6 +19,7 @@
     <p id="Gov">Government Type</p>
     <p id="Law">Law Level</p>
     <p id="Tech">Tech Level</p>
+    <p id="Codes">Trade Codes</p>
     <script>
         starTypes = Array("Type A", "Type F", "Type G", "Type K", "Type M", "Type L")
         orbitTypes = Array("Tight orbit", "Close orbit", "Moderate orbit", "Distant orbit")
@@ -48,6 +49,8 @@
         techDetails = Array("No technology", "Roughly on a par with Bronze or Iron age technology.", "Renaissance technology.", "The germ of industrial revolution and steam power.", "The transition to industrial revolution is complete, bringing plastics, radio\nand other such inventions.", "Widespread electrification, telecommunications and internal combustion.", "Fission power and more advanced computing.", "A pre-stellar society can reach orbit reliably and has telecommunications satellites.", "At TL 8, it is possible to reach other worlds in the same system, although\nterraforming or full colonisation are not within reach.", "Gravity manipulation, which makes space travel vastly safer and faster.", "With the advent of Jump, nearby systems are opened up.", "The first true artificial intelligences become possible, as computers are\nable to model synaptic networks.", "Weather control revolutionises terraforming and agriculture.", "The battle dress appears on the battlefield in response to the new\nweapons.", "Fusion weapons become man-portable.", "Black globe generators suggest a new direction for defensive technologies,\nwhile the development of synthetic anagathics means that the human lifespan is\nnow vastly increased. Higher Technology Levels exist and\nmay appear in other settings or be discovered by pioneering scientists.", "Antimatter engines allow much longer jumps (J-8) with reasonable cargo,\ncounter weapons and shields improve, powered/active armor increases durability,\ncommunications equivalent to personal telepathy and good\nshielding", "All engines are compact, take fewer engineers, and perform extremely well,\nup to J-12 and M-16, P-18, human multiplicity physically and virtually is\ncommon, super-intelligent AI, low berths are 0 risk and cure\nalmost all cancers and diseases, forms are mutable.", "Speculative, J-16, M-20, P-24, extremely good armor, black globe with\ncomplete variability control and huge storage, cvapital ships can use black\nglobes to power outrageous arsenals.", "J-20, J-30 when not near massive objects, J-40 with obscure psionics\nintegrated into production and operation of engines and ships. Resurections,\nbackups, robo/physical/virtual multi-embodiement with merged\nconsciousness, meta-human groupings with others for even larger merged consciousnesses.\nImmunity to pretty much every form of death.")
         techRange = Array("Primitive", "Primitive", "Primitive", "Primitive", "Industrial", "Industrial", "Industrial", "Pre-Stellar", "Pre-Stellar", "Pre-Stellar", "Early Stellar", "Early Stellar", "Average Stellar", "Average Stellar", "Average Stellar", "High Stellar", "High Stellar", "Low Sector", "Average Sector", "High Sector")
 
+        tradeCode = Array("Ag", "As", "De", "Fl", "Ga", "Hi", "Ht", "Ic", "In", "Lo", "Lt", "Na", "Ni", "Po", "Ri", "St", "Wa", "Va")
+        tradeDescription = Array("Agricultural", "Asteroid Belt", "Desert", "Fluid Oceans", "Garden", "High Population", "High Technology", "Ice-Capped", "Industrial", "Low Population", "Low Technology", "Non-Agricultural", "Non-Industrial", "Poor", "Rich", "Sterile", "Water World", "Vacuum")
         // System details, determined randomly
         numStars = 1
         Moderate_Companion = false
@@ -60,6 +63,8 @@
         starport = 0
         starportCode = "X"
         uwp = ""
+        systemTradeCodes = Array()
+        systemTradeDescriptions = Array()
         size = 0
         atmos = 0
         hydro = 0
@@ -69,6 +74,7 @@
         gov = 0
         splinters = 0
         tech = 0
+        allTradeCodes = ""
         
         function generateSystem() {
             getStarsNum();
@@ -325,6 +331,7 @@
             getGovernment()
             getLaw()
             getTech()
+            getCodes()
             getUWP()
         }
 
@@ -480,10 +487,142 @@
             }
             document.getElementById('Tech').innerText = "Tech Level " + tl[tech] + " (" + techRange[tech] + ") - " + techDetails[tech]
         }
+
+        // Note that getUWP() is called last, after all the other settings
+        // are established, so getCodes() (shortly fter this) must be called
+        // before getUWP(). Ditto all the earlier get*() routines, they go\
+        // before getUWP() as well.
         function getUWP() {
-            uwp = starportTypes[starport] + tl[size] + tl[atmos] + tl[hydro] + tl[pop] + tl[gov] + "-" + tl[tech]
-            document.getElementById('UWP').innerText = "UWP " + uwp
+            uwp = starportTypes[starport] + tl[size] + tl[atmos] + tl[hydro] + tl[pop] + tl[gov] + "-" + tl[tech];
+            document.getElementById('UWP').innerText = "UWP " + uwp + "\nTrade codes: " + allTradeCodes;
         }
+
+        function getCodes() {
+            codeCount = 0;
+            if (atmos > 3 && atmos < 10 && hydro > 3 && hydro < 9 && pop > 4 && pop < 8) {
+                // Agriculture
+                systemTradeCodes[codeCount] = tradeCode[0];
+                systemTradeDescriptions[codeCount] = tradeDescription[0];
+                codeCount++;
+            }
+            if (num_AsteroidBelts > 0) {
+                // Asteroid Belt(s)
+                systemTradeCodes[codeCount] = tradeCode[1];
+                systemTradeDescriptions[codeCount] = tradeDescription[1];
+                codeCount++;
+            }
+            if (atmos > 1 && atmos < 14 && hydro == 0) {
+                // Desert
+                systemTradeCodes[codeCount] = tradeCode[2];
+                systemTradeDescriptions[codeCount] = tradeDescription[2];
+                codeCount++;
+            }
+            if (atmos > 9 || (hydro > 0 && hydro < 12)) {
+                // Fluid Oceans
+                systemTradeCodes[codeCount] = tradeCode[3];
+                systemTradeDescriptions[codeCount] = tradeDescription[3];
+                codeCount++;
+            }
+            if (size > 4 && size < 11 && atmos > 3 && atmos < 10 && hydro > 3 && hydro < 9) {
+                // Garden
+                systemTradeCodes[codeCount] = tradeCode[4];
+                systemTradeDescriptions[codeCount] = tradeDescription[4];
+                codeCount++;
+            }
+            if (pop  > 8) {
+                // High Population
+                systemTradeCodes[codeCount] = tradeCode[5];
+                systemTradeDescriptions[codeCount] = tradeDescription[5];
+                codeCount++;
+            }
+            if (tech  > 9) {
+                // High Tech;
+                systemTradeCodes[codeCount] = tradeCode[6];
+                systemTradeDescriptions[codeCount] = tradeDescription[6];
+                codeCount++;
+            }
+            if (atmos < 2 && hydro > 0) {
+                // Ice Capped
+                systemTradeCodes[codeCount] = tradeCode[7];
+                systemTradeDescriptions[codeCount] = tradeDescription[7];
+                codeCount++;
+            }
+            if (pop > 8 && tech > 6) {
+                // Industrial
+                systemTradeCodes[codeCount] = tradeCode[8];
+                systemTradeDescriptions[codeCount] = tradeDescription[8];
+                codeCount++;
+            }
+            if (pop < 4) {
+                // Low Population
+                systemTradeCodes[codeCount] = tradeCode[9];
+                systemTradeDescriptions[codeCount] = tradeDescription[9];
+                codeCount++;
+            }
+            if (tech < 6) {
+                // Low Tech
+                systemTradeCodes[codeCount] = tradeCode[10];
+                systemTradeDescriptions[codeCount] = tradeDescription[10];
+                codeCount++;
+            }
+            if ((atmos < 4 || atmos > 10 || hydro < 4 || hydro > 10) && pop > 5) {
+                // Non-Agricultural
+                systemTradeCodes[codeCount] = tradeCode[11];
+                systemTradeDescriptions[codeCount] = tradeDescription[11];
+                codeCount++;
+            }
+            if (pop  > 3 && pop < 7) {
+                // Non-Industrial
+                systemTradeCodes[codeCount] = tradeCode[12];
+                systemTradeDescriptions[codeCount] = tradeDescription[12];
+                codeCount++;
+            }
+            if (atmos > 1 && atmos < 6 && hydro < 4) {
+                // Poor
+                systemTradeCodes[codeCount] = tradeCode[13];
+                systemTradeDescriptions[codeCount] = tradeDescription[13];
+                codeCount++;
+            }
+            if ((atmos == 6 || atmos == 8) && pop > 5 && pop < 9) {
+                // Rich
+                systemTradeCodes[codeCount] = tradeCode[14];
+                systemTradeDescriptions[codeCount] = tradeDescription[14];
+                codeCount++;
+            }
+            if (atmos == 0 && hydro == 0) {
+                // Sterile
+                systemTradeCodes[codeCount] = tradeCode[15];
+                systemTradeDescriptions[codeCount] = tradeDescription[15];
+                codeCount++;
+            }
+            if ((Hydro == 10 || hydro == 11) && atmos > 1) {
+                // Poor
+                systemTradeCodes[codeCount] = tradeCode[16];
+                systemTradeDescriptions[codeCount] = tradeDescription[16];
+                codeCount++;
+            }
+            if (atmos == 0) {
+                // Vacuum
+                systemTradeCodes[codeCount] = tradeCode[17];
+                systemTradeDescriptions[codeCount] = tradeDescription[17];
+                codeCount++;
+            }
+            allTradeDescriptions = ""
+            allTradeCodes = ""
+            first = true
+            for (i=0; i<codeCount; i++) {
+                if (first) {
+                    allTradeDescriptions += systemTradeDescriptions[i]
+                    allTradeCodes += systemTradeCodes[i]
+                    first=false
+                } else {
+                    allTradeDescriptions += ", " + systemTradeDescriptions[i]
+                    allTradeCodes += " " + systemTradeCodes[i]
+                }
+            }
+            document.getElementById('Codes').innerText = allTradeDescriptions
+        }
+        
 
         // Assorted random functions
         // Flip a coin
