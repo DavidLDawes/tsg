@@ -56,7 +56,7 @@ allTradeCodes = ""
 function generateCanvas() {
     const myCanvas = document.getElementById('Sector');
     const ctx = myCanvas.getContext('2d');
-    ctx.font = "14px Arial";
+    ctx.font = "10px Arial";
     ctx.fillStyle = "black";
     // set the radius of the hexagon
     for (let i=0; i<4; i++) {
@@ -64,9 +64,9 @@ function generateCanvas() {
             hexagon(ctx, 50 + i*96, 50 + j*55.426);
             i2 = i + i;
             i21 = i2 + 1;
-            ctx.fillText(" " + j + i2, 34 + i*96, 34 + j*55.426);
+            ctx.fillText(" " + j + i2, 40 + i*96, 30 + j*55.426);
             hexagon(ctx, 98 + i*96, 77.7128 + j*55.426)
-            ctx.fillText("  " + j + i21, 80 + i*96, 61.7 + j*55.426);
+            ctx.fillText("  " + j + i21, 86 + i*96, 57.7 + j*55.426);
         }
     }
 }
@@ -80,11 +80,9 @@ function hexagon(ctx, cx, cy) {
         // for the first point move to
         if (i === 0) {
             ctx.moveTo(cx + radius * Math.cos(rotation), cy + radius * Math.sin(rotation));
-            console.log("x = " + radius*Math.cos(rotation) + ", y = " + radius*Math.sin(rotation))
         } else {
             // for the rest draw a line
             ctx.lineTo(cx + radius * Math.cos(rotation), cy + radius * Math.sin(rotation));
-            console.log("x = " + radius*Math.cos(rotation) + ", y = " + radius*Math.sin(rotation))
         }
     }
 
