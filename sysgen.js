@@ -58,17 +58,42 @@ function generateCanvas() {
     const ctx = myCanvas.getContext('2d');
     ctx.font = "10px Arial";
     ctx.fillStyle = "black";
-    // set the radius of the hexagon
+    drawing = new Image();
+    drawing.src = "hexagons.png";
+    drawing.onload = function() {
+        ctx.drawImage(drawing,0,0);
+        for (let i=0; i<4; i++) {
+            for (let j=0; j<10; j++) {
+                // rows of hexagons are staggered horizontally,
+                // so do the upper one first
+                i2 = i + i;
+                i21 = i2 + 1;
+                ctx.fillText(" " + j + i2, 40 + i*120, 25 + j*68.8);
+
+                // Now do the lower one
+                ctx.fillText("  " + j + i21, 96 + i*120, 57.7 + j*68.8);
+            }
+        }
+    };
+
+    /*
     for (let i=0; i<4; i++) {
         for (let j=0; j<10; j++) {
+            // rows of hexagons are staggered horizontally,
+            // so do the upper one first
             hexagon(ctx, 50 + i*96, 50 + j*55.426);
             i2 = i + i;
             i21 = i2 + 1;
+            // and label the upper one
             ctx.fillText(" " + j + i2, 40 + i*96, 30 + j*55.426);
+
+            // Now do the lower one
             hexagon(ctx, 98 + i*96, 77.7128 + j*55.426)
+            // and label it too
             ctx.fillText("  " + j + i21, 86 + i*96, 57.7 + j*55.426);
         }
     }
+    */
 }
 
 function hexagon(ctx, cx, cy) {
