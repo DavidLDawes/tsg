@@ -29,29 +29,33 @@ techRange = Array("Primitive", "Primitive", "Primitive", "Primitive", "Industria
 tradeCode = Array("Ag", "As", "De", "Fl", "Ga", "Hi", "Ht", "Ic", "In", "Lo", "Lt", "Na", "Ni", "Po", "Ri", "St", "Wa", "Va")
 tradeDescription = Array("Agricultural", "Asteroid Belt", "Desert", "Fluid Oceans", "Garden", "High Population", "High Technology", "Ice-Capped", "Industrial", "Low Population", "Low Technology", "Non-Agricultural", "Non-Industrial", "Poor", "Rich", "Sterile", "Water World", "Vacuum")
 // System details, determined randomly
-numStars = 1
-Moderate_Companion = false
-Distant_Companion = false
-Close_Companion = false
-num_GasGiants = 0
-num_AsteroidBelts = 0
+column = Array(0)
+row = Array(0)
+numStars = Array(1)
+Moderate_Companion = Array(false)
+Distant_Companion = Array(false)
+Close_Companion = Array(false)
+starsDescription = Array("")
+num_GasGiants = Array(0)
+num_AsteroidBelts = Array(0)
+planetsDescription = Array("")
 
 // World details, determined randomly
-starport = 0
-starportCode = "X"
-uwp = ""
-systemTradeCodes = Array()
-systemTradeDescriptions = Array()
-size = 0
-atmos = 0
-hydro = 0
-pop = 0
-factor = 9
-law = 0
-gov = 0
-splinters = 0
-tech = 0
-allTradeCodes = ""
+starport = Array(0)
+starportCode = Array("X")
+uwp = Array("")
+systemTradeCodes = Array("")
+systemTradeDescriptions = Array("")
+size = Array(0)
+atmos = Array(0)
+hydro = Array(0)
+pop = Array(0)
+factor = Array(9)
+law = Array(0)
+gov = Array(0)
+splinters = Array(0)
+tech = Array(0)
+allTradeCodes = Array("")
 
 function generateCanvas() {
     const myCanvas = document.getElementById('Sector');
@@ -60,6 +64,19 @@ function generateCanvas() {
     ctx.fillStyle = "black";
     drawing = new Image();
     drawing.src = "hexagons.png";
+    systemIndex = 0;
+
+    // while loading the png we can generate all the systems
+    for (let i=0; i<8; i++) {
+        for (let j=0; j<10; j++) {
+            if (zero2one() == 1) {
+                column[systemIndex] = i;
+                row[systemIndex] = j;
+                generateSystem(systemIndex);
+                systemIndex++;
+            }
+        }
+    }
     drawing.onload = function() {
         ctx.drawImage(drawing,0,0);
         for (let i=0; i<4; i++) {
@@ -69,7 +86,6 @@ function generateCanvas() {
                 i2 = i + i;
                 i21 = i2 + 1;
                 ctx.fillText(" " + j + i2, 40 + i*120, 25 + j*68.8);
-
                 // Now do the lower one
                 ctx.fillText("  " + j + i21, 96 + i*120, 57.7 + j*68.8);
             }
@@ -96,6 +112,7 @@ function generateCanvas() {
     */
 }
 
+/*
 function hexagon(ctx, cx, cy) {
     const radius = 32;
     for (let i = 0; i < 6; i++) {
@@ -115,60 +132,73 @@ function hexagon(ctx, cx, cy) {
     ctx.closePath();
     ctx.stroke();
 }
+*/
 
-function generateSystem() {
-    getStarsNum();
-    getStarsTypes();
-    getPlanets();
-    getWorld();
+function generateSystem(sysnum) {
+    getStarsNum(sysnum);
+    getStarsTypes(sysnum);
+    getPlanets(sysnum);
+    getWorld(sysnum);
 }
 
-function getStarsNum() {
+function setSystem(sysnum) {
+    setStars(sysnum);
+    setStarsTypes(sysnum);
+    setPlanets(sysnum);
+    setWorld(sysnum);
+}
+
+function getStarsNum(sysnum) {
     z15 = zero2fifteen()
     switch(true) {
     case z15 > 12:
-        numStars = 3
-        document.getElementById('Stars').innerHTML = "3 Star System, "
+        numStars[sysnum] = 3
         break;
     case z15 > 7:
-        numStars = 2
-        document.getElementById('Stars').innerHTML = "2 Star System, "
+        numStars[sysnum] = 2
         break;
     case z15 < 8:
-        numStars = 1
-        document.getElementById('Stars').innerHTML = "1 Star System, "
+        numStars[sysnum] = 1
     default:
-        numStars = 1
-        document.getElementById('Stars').innerHTML = "1 Star System, "
+        numStars[sysnum] = 1
         break;
     }
 }
+function setStars(sysnum) {
+    if (numStars[sysnum] == 1) {
+        document.getElementById('Stars').innerHTML = "Single Star System, "
+    } else if (numStars[sysnum] == 2) {
+        document.getElementById('Stars').innerHTML = "Dual Star System, "
+    } else {
+        document.getElementById('Stars').innerHTML = "Triple Star System, "
+    }
+}
 
-function getStarsTypes() {
+function getStarsTypes(sysnum) {
     z10 = zero2ten()
     switch (true) {
     case z10==0:
-        document.getElementById('Stars').innerHTML = document.getElementById('Stars').innerHTML + starTypes[0]
+        starsDescription[sysnum] = starsDescription[sysnum] + starTypes[0]
         break;
     case z10==1:
-        document.getElementById('Stars').innerHTML = document.getElementById('Stars').innerHTML + starTypes[1]
+        starsDescription[sysnum] = starsDescription[sysnum] + starTypes[1]
         break;
     case z10==2:
-        document.getElementById('Stars').innerHTML = document.getElementById('Stars').innerHTML + starTypes[2]
+        starsDescription[sysnum] = starsDescription[sysnum] + starTypes[2]
         break;
     case z10==3:
-        document.getElementById('Stars').innerHTML = document.getElementById('Stars').innerHTML + starTypes[3]
+        starsDescription[sysnum] = starsDescription[sysnum] + starTypes[3]
         break;
     case z10 > 3:
-        document.getElementById('Stars').innerHTML = document.getElementById('Stars').innerHTML + starTypes[4]
+        starsDescription[sysnum] = starsDescription[sysnum] + starTypes[4]
         break;
     default:
-        document.getElementById('Stars').innerHTML = document.getElementById('Stars').innerHTML + starTypes[3]
+        starsDescription[sysnum] = starsDescription[sysnum] + starTypes[3]
         break;
     }
-    if (numStars > "1") {
+    if (numStars[sysnum] > 1) {
         nextOrbit = "";
-        for (i = 1; i < numStars; i++) {
+        for (i = 1; i < numStars[sysnum]; i++) {
             z5 = zero2five();
             switch (true) {
             case z5 < 2:
@@ -194,33 +224,37 @@ function getStarsTypes() {
             }
             switch (zero2five()) {
             case 0:
-                document.getElementById('Stars').innerHTML = document.getElementById('Stars').innerHTML + ", secondary " + starTypes[0] + " in " + nextOrbit
+                starsDescription[sysnum] = starsDescription[sysnum] + ", secondary " + starTypes[0] + " in " + nextOrbit
                 break;
             case 1:
-                document.getElementById('Stars').innerHTML = document.getElementById('Stars').innerHTML + ", secondary " + starTypes[1] + " in " + nextOrbit
+                starsDescription[sysnum] = starsDescription[sysnum] + ", secondary " + starTypes[1] + " in " + nextOrbit
                 break;
             case 2:
-                document.getElementById('Stars').innerHTML = document.getElementById('Stars').innerHTML + ", secondary " + starTypes[2] + " in " + nextOrbit
+                starsDescription[sysnum] = starsDescription[sysnum] + ", secondary " + starTypes[2] + " in " + nextOrbit
                 break;
             case 3:
-                document.getElementById('Stars').innerHTML = document.getElementById('Stars').innerHTML + ", secondary " + starTypes[3] + " in " + nextOrbit
+                starsDescription[sysnum] = starsDescription[sysnum] + ", secondary " + starTypes[3] + " in " + nextOrbit
                 break;
             case 4:
             case 5:
             case 6:
-                document.getElementById('Stars').innerHTML = document.getElementById('Stars').innerHTML + ", secondary " + starTypes[4] + " in " + nextOrbit
+                starsDescription[sysnum] = starsDescription[sysnum] + ", secondary " + starTypes[4] + " in " + nextOrbit
                 break;
             default:
-                document.getElementById('Stars').innerHTML = document.getElementById('Stars').innerHTML + ", secondary " + starTypes[3] + " in " + nextOrbit
+                starsDescription[sysnum] = starsDescription[sysnum] + ", secondary " + starTypes[3] + " in " + nextOrbit
                 break;
             }
         }
     }
 }
 
-// that finsihes the stars, next are planets and asteroid belts
-function getPlanets() {
-    document.getElementById('Planets').innerHTML = "";
+function setStarsTypes(sysnum) {
+    document.getElementById('Stars').innerHTML = starsDescription[sysnum]
+}
+
+// that finshes the stars, next are planets and asteroid belts
+function getPlanets(sysnum) {
+    planetsDescription[sysnum] = ""
     Epistellar_Planets = 0;
     Inner_Planets = 0;
     Outer_Planet = 0;
@@ -235,9 +269,9 @@ function getPlanets() {
             Epistellar_Planets = 2;
         }
         if (Epistellar_Planets > 0) {
-            document.getElementById('Planets').innerHTML = document.getElementById('Planets').innerHTML + "Epistellar planets:\n";
+            planetsDescription[sysnum] = planetsDescription[sysnum] + "Epistellar planets:\n";
             for (i=0; i<Epistellar_Planets; i++) {
-                getPlanet();
+                getPlanet(sysnum);
             }
         }
     }
@@ -246,9 +280,9 @@ function getPlanets() {
         Inner_Planets = 0;
     }
     if (Inner_Planets > 0) {
-        document.getElementById('Planets').innerHTML = document.getElementById('Planets').innerHTML + "Inner planets:\n";
+        planetsDescription[sysnum] = planetsDescription[sysnum] + "Inner planets:\n";
         for (i = 0; i < Inner_Planets; i++) {
-            getPlanet();
+            getPlanet(sysnum);
         }
     }
 
@@ -260,43 +294,41 @@ function getPlanets() {
         Outer_Planets = 0;
     }
     if (Outer_Planets > 0) {
-        document.getElementById('Planets').innerHTML = document.getElementById('Planets').innerHTML + "Outer planets:\n";
+        planetsDescription[sysnum] = planetsDescription[sysnum] + "Outer planets:\n";
         for (i = 0; i < Outer_Planets; i++) {
-            getPlanet();
+            getPlanet(sysnum);
         }
     }
 }
 
 // get a single planet and its possible satellites
-function getPlanet() {
+function getPlanet(sysnum) {
     delta = 0
     firstpass = true
-    if (document.getElementById('Stars').innerHTML == starTypes[5]) {
-        delta = -1
-    }
-    z2d = zero2five() + delta
+    
+    z2d = zero2five()
     switch (true) {
     case z2d < 1:
         if (zero2five() > 3) {
-            document.getElementById('Planets').innerHTML = document.getElementById('Planets').innerHTML + planetTypes[0] + " Mostly Dwarf planetoids, one " + planetTypes[1] + "\n";
+            planetsDescription[sysnum] = planetsDescription[sysnum] + planetTypes[0] + " Mostly Dwarf planetoids, one " + planetTypes[1] + "\n";
             num_AsteroidBelts++
         } else {
-            document.getElementById('Planets').innerHTML = document.getElementById('Planets').innerHTML + planetTypes[0] + "\n";
+            planetsDescription[sysnum] = planetsDescription[sysnum] + planetTypes[0] + "\n";
             num_AsteroidBelts++
         }
         break;
     case z2d == 1:
         if (zero2five() > 4) {
-            document.getElementById('Planets').innerHTML = document.getElementById('Planets').innerHTML + planetTypes[1], " Satellite " + planetTypes[1] + "\n";
+            planetsDescription[sysnum] = planetsDescription[sysnum] + planetTypes[1], " Satellite " + planetTypes[1] + "\n";
         } else {
-            document.getElementById('Planets').innerHTML = document.getElementById('Planets').innerHTML + planetTypes[1] + "\n";;
+            planetsDescription[sysnum] = planetsDescription[sysnum] + planetTypes[1] + "\n";;
         }
         break;
     case z2d == 2:
         if (zero2five() > 3) {
-            document.getElementById('Planets').innerHTML = document.getElementById('Planets').innerHTML + planetTypes[2] + " Satellite " + planetTypes[1] + "\n";
+            planetsDescription[sysnum] = planetsDescription[sysnum] + planetTypes[2] + " Satellite " + planetTypes[1] + "\n";
         } else {
-            document.getElementById('Planets').innerHTML = document.getElementById('Planets').innerHTML + planetTypes[2] + "\n";
+            planetsDescription[sysnum] = planetsDescription[sysnum] + planetTypes[2] + "\n";
         }
         break;
     case z2d == 3:
@@ -309,22 +341,22 @@ function getPlanet() {
             if (zero2five() < 5) {
                 // All satelites are dwarfs
                 if (numSat == 1) {
-                    document.getElementById('Planets').innerHTML = document.getElementById('Planets').innerHTML + planetTypes[3] + " Sattelite " + planetTypes[1] + "\n";
+                    planetsDescription[sysnum] = planetsDescription[sysnum] + planetTypes[3] + " Sattelite " + planetTypes[1] + "\n";
                 } else {
-                    document.getElementById('Planets').innerHTML = document.getElementById('Planets').innerHTML + planetTypes[3] + " Sattelite " + planetTypes[1] + numSat + "x " + planetTypes[1] + "\n";
+                    planetsDescription[sysnum] = planetsDescription[sysnum] + planetTypes[3] + " Sattelite " + planetTypes[1] + numSat + "x " + planetTypes[1] + "\n";
                 }
             } else {
                 // One satellite is terrestrial
                 if (numSat == 1) {
-                    document.getElementById('Planets').innerHTML = document.getElementById('Planets').innerHTML + planetTypes[3] + " Satellite " + planetTypes[1]  + "\n";
+                    planetsDescription[sysnum] = planetsDescription[sysnum] + planetTypes[3] + " Satellite " + planetTypes[1]  + "\n";
                 } else if (numSat == 2) {
-                    document.getElementById('Planets').innerHTML = document.getElementById('Planets').innerHTML + planetTypes[3] + " Satellite " + planetTypes[2] + " & " + planetTypes[1] + "\n";
+                    planetsDescription[sysnum] = planetsDescription[sysnum] + planetTypes[3] + " Satellite " + planetTypes[2] + " & " + planetTypes[1] + "\n";
                 } else {
-                    document.getElementById('Planets').innerHTML = document.getElementById('Planets').innerHTML + planetTypes[3] + " Satellite " + planetTypes[2] + numSat + "x " + planetTypes[1] + "\n";
+                    planetsDescription[sysnum] = planetsDescription[sysnum] + planetTypes[3] + " Satellite " + planetTypes[2] + numSat + "x " + planetTypes[1] + "\n";
                 }
             }
         } else {
-            document.getElementById('Planets').innerHTML = document.getElementById('Planets').innerHTML + planetTypes[3] + "\n";
+            planetsDescription[sysnum] = planetsDescription[sysnum] + planetTypes[3] + "\n";
         }
         break;
     case z2d < 7:
@@ -332,337 +364,360 @@ function getPlanet() {
         if (zero2five() < 5) {
             // All satelites are dwarfs
             if (numSat == 1) {
-                document.getElementById('Planets').innerHTML = document.getElementById('Planets').innerHTML + planetTypes[4] + " Sattelite " + planetTypes[1] + "\n";
+                planetsDescription[sysnum] = planetsDescription[sysnum] + planetTypes[4] + " Sattelite " + planetTypes[1] + "\n";
                 num_GasGiants++
             } else {
-                document.getElementById('Planets').innerHTML = document.getElementById('Planets').innerHTML + planetTypes[4] + " Satellite " + numSat + "x " + planetTypes[1] + "\n";
+                planetsDescription[sysnum] = planetsDescription[sysnum] + planetTypes[4] + " Satellite " + numSat + "x " + planetTypes[1] + "\n";
                 num_GasGiants++
             }
         } else {
             // One satellite is terrestrial
             if (numSat == 1) {
-                document.getElementById('Planets').innerHTML = document.getElementById('Planets').innerHTML + planetTypes[4] + " Satellite " + planetTypes[2] + "\n";
+                planetsDescription[sysnum] = planetsDescription[sysnum] + planetTypes[4] + " Satellite " + planetTypes[2] + "\n";
                 num_GasGiants++
             } else if (numSat == 2) {
-                document.getElementById('Planets').innerHTML = document.getElementById('Planets').innerHTML + planetTypes[4] + " Satellites " + planetTypes[2] + " & " + planetTypes[1] + "\n";
+                planetsDescription[sysnum] = planetsDescription[sysnum] + planetTypes[4] + " Satellites " + planetTypes[2] + " & " + planetTypes[1] + "\n";
                 num_GasGiants++
             } else {
-                document.getElementById('Planets').innerHTML = document.getElementById('Planets').innerHTML + planetTypes[4] + " Sattelites " + planetTypes[2] + " & " + numSat + "x " + planetTypes[1] + "\n";
+                planetsDescription[sysnum] = planetsDescription[sysnum] + planetTypes[4] + " Sattelites " + planetTypes[2] + " & " + numSat + "x " + planetTypes[1] + "\n";
                 num_GasGiants++
             }
         }
         break;
     default:
         if (zero2five() > 3) {
-            document.getElementById('Planets').innerHTML = document.getElementById('Planets').innerHTML + planetTypes[2], " Satellite " + planetTypes[1] + "\n";
+            planetsDescription[sysnum] = planetsDescription[sysnum] + planetTypes[2], " Satellite " + planetTypes[1] + "\n";
         } else {
-            document.getElementById('Planets').innerHTML = document.getElementById('Planets').innerHTML + planetTypes[2] + "\n";
+            planetsDescription[sysnum] = planetsDescription[sysnum] + planetTypes[2] + "\n";
         }
         break;
     }
 }
 
-function getWorld() {
-    getStarport()
-    getSize()
-    getAtmosphere()
-    getHydrology()
-    getPopulation()
-    getGovernment()
-    getLaw()
-    getTech()
-    getCodes()
-    getUWP()
+// set a single planet and its possible satellites in the GUI
+function setPlanets(sysnum) {
+    document.getElementById('Planets').innerHTML = planetsDescription[sysnum]
 }
 
-function getStarport() {
+function getWorld(sysnum) {
+    getStarport(sysnum)
+    getSize(sysnum)
+    getAtmosphere(sysnum)
+    getHydrology(sysnum)
+    getPopulation(sysnum)
+    getGovernment(sysnum)
+    getLaw(sysnum)
+    getTech(sysnum)
+    getCodes(sysnum)
+    getUWP(sysnum)
+}
+
+
+function setWorld(sysnum) {
+    setLocation(sysnum)
+    setStarport(sysnum)
+    setSize(sysnum)
+    setAtmosphere(sysnum)
+    setHydrology(sysnum)
+    setPopulation(sysnum)
+    setGovernment(sysnum)
+    setLaw(sysnum)
+    setTech(sysnum)
+    setCodes(sysnum)
+    setUWP(sysnum)
+}
+
+function setLocation(sysnum) {
+    document.getElementById('Location').innerHTML = "Location row " + row[sysnum] + ", column " + column[sysnum];
+}
+
+function getStarport(sysnum) {
     switch (zero2ten()) {
     case 0:
-        starport = 0
+        starport[sysnum] = 0
     case 1:
     case 2:
-        starport = 1
+        starport[sysnum] = 1
     case 3:
     case 4:
-        starport = 2;
+        starport[sysnum] = 2;
         break;
     case 5:
     case 6:
-        starport = 3;
+        starport[sysnum] = 3;
         break;
     case 7:
     case 8:
-        starport = 4;
+        starport[sysnum] = 4;
         break;
     case 9:
     case 10:
     case 11:
-        starport = 5;
+        starport[sysnum] = 5;
         break;
     default:
-        starport = 3;
+        starport[sysnum] = 3;
         break;
     }
-    starportCode = starTypes[starport];
-	document.getElementById('Port').innerHTML = "Starport type " + starportTypes[starport] + ", " + starportDetails[starport];
+    starportCode = starTypes[starport[sysnum]];
 }
 
-function getSize() {
-	size = zero2ten();
-	document.getElementById('Size').innerHTML = "Size " + tl[size] + ", " + sizeDetails[size] + ", gravity " + gravDetails[size];
+function setStarport(sysnum) {
+    document.getElementById('Port').innerHTML = "Starport type " + starportTypes[starport[sysnum]] + ", " + starportDetails[starport[sysnum]];
 }
 
-function getAtmosphere() {
-	atmos = zero2ten() + size - 5;
-    if (atmos < 0) {atmos = 0;}
-    if (atmos>15) {atmos = 15;}
-	document.getElementById('Atmos').innerText = "Atmosphere " + tl[atmos] + ", " + atmosphereDetails[atmos] + ", pressure " + atmospherePressureDetails[atmos] + ", equipment required: " + atmosphereEquipmentDetails[atmos];
+function getSize(sysnum) {
+	size[sysnum] = zero2ten();
 }
 
-function getHydrology() {
+function setSize(sysnum) {
+	document.getElementById('Size').innerHTML = "Size " + tl[size[sysnum]] + ", " + sizeDetails[size[sysnum]] + ", gravity " + gravDetails[size[sysnum]];
+}
+
+function getAtmosphere(sysnum) {
+	atmos[sysnum] = zero2ten() + size[sysnum] - 5;
+    if (atmos[sysnum] < 0) {atmos[sysnum] = 0;}
+    if (atmos[sysnum] > 15) {atmos[sysnum] = 15;}
+}
+
+function setAtmosphere(sysnum) {
+	document.getElementById('Atmos').innerText = "Atmosphere " + tl[atmos[sysnum]] + ", " + atmosphereDetails[atmos[sysnum]] + ", pressure " + atmospherePressureDetails[atmos[sysnum]] + ", equipment required: " + atmosphereEquipmentDetails[atmos[sysnum]];
+}
+
+function getHydrology(sysnum) {
     if (size < 2) {
-        hydro = 0;
+        hydro[sysnum] = 0;
     } else {
-        hydro = zero2ten() - 5 + size;
-        switch (atmos) {
+        hydro[sysnum] = zero2ten() - 5 + size[sysnum];
+        switch (atmos[sysnum]) {
         case 0:
         case 1:
         case 10:
         case 11:
         case 12:
-            hydro = hydro - 4
+            hydro[sysnum] = hydro[sysnum] - 4
             break;
         }
-        if (hydro < 0) {
-            hydro = 0
+        if (hydro[sysnum] < 0) {
+            hydro[sysnum] = 0
         }
-        if (hydro > 10) {
-            hydro = 10
+        if (hydro[sysnum] > 10) {
+            hydro[sysnum] = 10
         }
     }
-    document.getElementById('Hydro').innerText = "Hydrology " + tl[hydro] + ", " + hydroDetails[hydro] + ", covering " + hydroRangeDetails[hydro] + " of the surface"
 }
 
-function getPopulation() {
-    pop = zero2ten()
-    if (pop == 0) {
-        document.getElementById('Pop').innerText = "Population " + tl[pop] + " - Unpopulated"
+function setHydrology(sysnum) {
+    document.getElementById('Hydro').innerText = "Hydrology " + tl[hydro[sysnum]] + ", " + hydroDetails[hydro[sysnum]] + ", covering " + hydroRangeDetails[hydro[sysnum]] + " of the surface"
+}
+
+function getPopulation(sysnum) {
+    pop[sysnum] = zero2ten()
+    if (pop[sysnum] > 0) {
+        factor[sysnum] = one2nine1d()
+    }
+}
+
+function setPopulation(sysnum) {
+    if (pop[sysnum] == 0) {
+        document.getElementById('Pop').innerText = "Population " + tl[pop[sysnum]] + " - Unpopulated"
     } else {
-        factor = one2nine1d()
-        document.getElementById('Pop').innerText = "Population " + tl[pop] + " - " + populationDetail[pop-1] + " times " + factor
+        document.getElementById('Pop').innerText = "Population " + tl[pop[sysnum]] + " - " + populationDetail[pop[sysnum]-1] + " times " + factor[sysnum]
     }
 }
 
-function getGovernment() {
-    gov = zero2ten() - 5 + pop
-    if (gov < 0) {
-        gov = 0
-    } else if (gov > 13) {
-        gov = 13
+function getGovernment(sysnum) {
+    gov[sysnum] = zero2ten() - 5 + pop[sysnum]
+    if (gov[sysnum] < 0) {
+        gov[sysnum] = 0
+    } else if (gov[sysnum] > 13) {
+        gov[sysnum] = 13
     }
-    document.getElementById('Gov').innerText = "Government " + tl[gov] + " - " + govDetails[gov]
 }
 
-function getLaw() {
-    law = zero2ten() - 7 + gov
-    if (law < 0) {
-		law = 0
-    }
-    document.getElementById('Law').innerText = "Law Level " + tl[law] + " - " + lawDetails[law]
+function setGovernment(sysnum) {
+    document.getElementById('Gov').innerText = "Government " + tl[gov[sysnum]] + " - " + govDetails[gov[sysnum]]
 }
 
-function getTech() {
-    tech = zero2five() + 1; // in other words a 1D6
-	switch (starport) {
+function getLaw(sysnum) {
+    law[sysnum] = zero2ten() - 7 + gov[sysnum]
+    if (law[sysnum] < 0) {
+		law[sysnum] = 0
+    }
+}
+
+function setLaw(sysnum) {
+    document.getElementById('Law').innerText = "Law Level " + tl[law[sysnum]] + " - " + lawDetails[law[sysnum]]
+}
+
+function getTech(sysnum) {
+    tech[sysnum] = zero2five() + 1; // in other words a 1D6
+	switch (starport[sysnum]) {
     case 0:
-        tech -= 4;
+        tech[sysnum] -= 4;
         break;
     case 3:
-        tech += 2;
+        tech[sysnum] += 2;
         break;
     case 4:
-        tech += 4;
+        tech[sysnum] += 4;
         break;
     case 5:
-        tech += 6;
+        tech[sysnum] += 6;
         break;
     }
-    if (size < 2) {
-		tech += 2;
-	} else if (size < 5) {
-		tech += 1;
+    if (size[sysnum] < 2) {
+		tech[sysnum] += 2;
+	} else if (size[sysnum] < 5) {
+		tech[sysnum] += 1;
     }
-    if (atmos < 4) {
-        tech += 1;
-    } else if (atmos > 9) {
-        tech += 1;
+    if (atmos[sysnum] < 4) {
+        tech[sysnum] += 1;
+    } else if (atmos[sysnum] > 9) {
+        tech[sysnum] += 1;
     }
-    if (hydro == 0 || hydro == 9) {
-		tech++;
-	} else if (hydro == 10) {
-		tech += 2;
+    if (hydro[sysnum] == 0 || hydro[sysnum] == 9) {
+		tech[sysnum]++;
+	} else if (hydro[sysnum] == 10) {
+		tech[sysnum] += 2;
     }
-    if (pop < 6 || pop == 9) {
-        tech++;
-    } else if (pop == 10) {
-        tech += 2;
-    } else if (pop == 11) {
-        tech += 3;
-    } else if (pop == 12) {
-        tech += 4;
-    } else if (pop == 13) {
-        tech += 5;
-    } else if (pop == 14) {
-        tech += 6;
+    if (pop[sysnum] < 6 || pop[sysnum] == 9) {
+        tech[sysnum]++;
+    } else if (pop[sysnum] == 10) {
+        tech[sysnum] += 2;
+    } else if (pop[sysnum] == 11) {
+        tech[sysnum] += 3;
+    } else if (pop[sysnum] == 12) {
+        tech[sysnum] += 4;
+    } else if (pop[sysnum] == 13) {
+        tech[sysnum] += 5;
+    } else if (pop[sysnum] == 14) {
+        tech[sysnum] += 6;
     }
-    if (gov == 0 || gov == 5) {
-        tech++;
-    } else if (gov == 7) {
-        tech += 2;
-    } else if (gov == 13 || gov == 14) {
-        tech -= 2;
+    if (gov[sysnum] == 0 || gov[sysnum] == 5) {
+        tech[sysnum]++;
+    } else if (gov[sysnum] == 7) {
+        tech[sysnum] += 2;
+    } else if (gov[sysnum] == 13 || gov[sysnum] == 14) {
+        tech[sysnum] -= 2;
     }
-    if (tech < 0) {
-        tech = 0;
+    if (tech[sysnum] < 0) {
+        tech[sysnum] = 0;
     }
-    document.getElementById('Tech').innerText = "Tech Level " + tl[tech] + " (" + techRange[tech] + ") - " + techDetails[tech]
+}
+
+function setTech(sysnum) {
+    document.getElementById('Tech').innerText = "Tech Level " + tl[tech[sysnum]] + " (" + techRange[tech[sysnum]] + ") - " + techDetails[tech[sysnum]]
 }
 
 // Note that getUWP() is called last, after all the other settings
 // are established, so getCodes() (shortly fter this) must be called
 // before getUWP(). Ditto all the earlier get*() routines, they go\
 // before getUWP() as well.
-function getUWP() {
-    uwp = starportTypes[starport] + tl[size] + tl[atmos] + tl[hydro] + tl[pop] + tl[gov] + "-" + tl[tech];
-    document.getElementById('UWP').innerText = "UWP " + uwp + "\nTrade codes: " + allTradeCodes;
+function getUWP(sysnum) {
+    uwp[sysnum] = starportTypes[starport[sysnum]] + tl[size[sysnum]] + tl[atmos[sysnum]] + tl[hydro[sysnum]] + tl[pop[sysnum]] + tl[gov[sysnum]] + "-" + tl[tech[sysnum]];
 }
 
-function getCodes() {
-    codeCount = 0;
-    if (atmos > 3 && atmos < 10 && hydro > 3 && hydro < 9 && pop > 4 && pop < 8) {
+function setUWP(sysnum) {
+    document.getElementById('UWP').innerText = "UWP " + uwp[sysnum] + "\nTrade codes: " + allTradeCodes[sysnum];
+}
+
+function getCodes(sysnum) {
+    if (atmos[sysnum] > 3 && atmos[sysnum] < 10 && hydro[sysnum] > 3 && hydro[sysnum] < 9 && pop[sysnum] > 4 && pop[sysnum] < 8) {
         // Agriculture
-        systemTradeCodes[codeCount] = tradeCode[0];
-        systemTradeDescriptions[codeCount] = tradeDescription[0];
-        codeCount++;
+        systemTradeCodes[sysnum] += tradeCode[0] + " ";
+        systemTradeDescriptions[sysnum] += tradeCode[0] + " " + tradeDescription[0] + "/n";
     }
     if (num_AsteroidBelts > 0) {
         // Asteroid Belt(s)
-        systemTradeCodes[codeCount] = tradeCode[1];
-        systemTradeDescriptions[codeCount] = tradeDescription[1];
-        codeCount++;
+        systemTradeCodes[sysnum] += tradeCode[1] + " ";
+        systemTradeDescriptions[sysnum] += tradeCode[1] + " " + tradeDescription[1] + "/n";
     }
     if (atmos > 1 && atmos < 14 && hydro == 0) {
         // Desert
-        systemTradeCodes[codeCount] = tradeCode[2];
-        systemTradeDescriptions[codeCount] = tradeDescription[2];
-        codeCount++;
+        systemTradeCodes[sysnum] += tradeCode[2] + " ";
+        systemTradeDescriptions[sysnum] += tradeCode[2] + " " + tradeDescription[2] + "/n";
     }
     if (atmos > 9 || (hydro > 0 && hydro < 12)) {
         // Fluid Oceans
-        systemTradeCodes[codeCount] = tradeCode[3];
-        systemTradeDescriptions[codeCount] = tradeDescription[3];
-        codeCount++;
+        systemTradeCodes[sysnum] += tradeCode[3] + " ";
+        systemTradeDescriptions[sysnum] += tradeCode[3] + " " + tradeDescription[3] + "/n";
     }
     if (size > 4 && size < 11 && atmos > 3 && atmos < 10 && hydro > 3 && hydro < 9) {
         // Garden
-        systemTradeCodes[codeCount] = tradeCode[4];
-        systemTradeDescriptions[codeCount] = tradeDescription[4];
-        codeCount++;
+        systemTradeCodes[sysnum] += tradeCode[4] + " ";
+        systemTradeDescriptions[sysnum] += tradeCode[4] + " " + tradeDescription[4] + "/n";
     }
     if (pop  > 8) {
         // High Population
-        systemTradeCodes[codeCount] = tradeCode[5];
-        systemTradeDescriptions[codeCount] = tradeDescription[5];
-        codeCount++;
+        systemTradeCodes[sysnum] += tradeCode[5] + " ";
+        systemTradeDescriptions[sysnum] += tradeCode[5] + " " + tradeDescription[5] + "/n";
     }
     if (tech  > 9) {
         // High Tech;
-        systemTradeCodes[codeCount] = tradeCode[6];
-        systemTradeDescriptions[codeCount] = tradeDescription[6];
-        codeCount++;
+        systemTradeCodes[sysnum] += tradeCode[6] + " ";
+        systemTradeDescriptions[sysnum] += tradeCode[6] + " " + tradeDescription[6] + "/n";
     }
     if (atmos < 2 && hydro > 0) {
         // Ice Capped
-        systemTradeCodes[codeCount] = tradeCode[7];
-        systemTradeDescriptions[codeCount] = tradeDescription[7];
-        codeCount++;
+        systemTradeCodes[sysnum] += tradeCode[7] + " ";
+        systemTradeDescriptions[sysnum] += tradeCode[7] + " " + tradeDescription[7] + "/n";
     }
     if (pop > 8 && tech > 6) {
         // Industrial
-        systemTradeCodes[codeCount] = tradeCode[8];
-        systemTradeDescriptions[codeCount] = tradeDescription[8];
-        codeCount++;
+        systemTradeCodes[sysnum] += tradeCode[8] + " ";
+        systemTradeDescriptions[sysnum] += tradeCode[8] + " " + tradeDescription[8] + "/n";
     }
     if (pop < 4) {
         // Low Population
-        systemTradeCodes[codeCount] = tradeCode[9];
-        systemTradeDescriptions[codeCount] = tradeDescription[9];
-        codeCount++;
+        systemTradeCodes[sysnum] += tradeCode[9] + " ";
+        systemTradeDescriptions[sysnum] += tradeCode[9] + " " + tradeDescription[9] + "/n";
     }
     if (tech < 6) {
         // Low Tech
-        systemTradeCodes[codeCount] = tradeCode[10];
-        systemTradeDescriptions[codeCount] = tradeDescription[10];
-        codeCount++;
+        systemTradeCodes[sysnum] += tradeCode[10] + " ";
+        systemTradeDescriptions[sysnum] += tradeCode[10] + " " + tradeDescription[10] + "/n";
     }
     if ((atmos < 4 || atmos > 10 || hydro < 4 || hydro > 10) && pop > 5) {
         // Non-Agricultural
-        systemTradeCodes[codeCount] = tradeCode[11];
-        systemTradeDescriptions[codeCount] = tradeDescription[11];
-        codeCount++;
+        systemTradeCodes[sysnum] += tradeCode[11] + " ";
+        systemTradeDescriptions[sysnum] += tradeCode[11] + " " + tradeDescription[11] + "/n";
     }
     if (pop  > 3 && pop < 7) {
         // Non-Industrial
-        systemTradeCodes[codeCount] = tradeCode[12];
-        systemTradeDescriptions[codeCount] = tradeDescription[12];
-        codeCount++;
+        systemTradeCodes[sysnum] += tradeCode[12] + " ";
+        systemTradeDescriptions[sysnum] += tradeCode[12] + " " + tradeDescription[12] + "/n";
     }
     if (atmos > 1 && atmos < 6 && hydro < 4) {
         // Poor
-        systemTradeCodes[codeCount] = tradeCode[13];
-        systemTradeDescriptions[codeCount] = tradeDescription[13];
-        codeCount++;
+        systemTradeCodes[sysnum] += tradeCode[13] + " ";
+        systemTradeDescriptions[sysnum] += tradeCode[13] + " " + tradeDescription[13] + "/n";
     }
     if ((atmos == 6 || atmos == 8) && pop > 5 && pop < 9) {
         // Rich
-        systemTradeCodes[codeCount] = tradeCode[14];
-        systemTradeDescriptions[codeCount] = tradeDescription[14];
-        codeCount++;
+        systemTradeCodes[sysnum] += tradeCode[14] + " ";
+        systemTradeDescriptions[sysnum] += tradeCode[14] + " " + tradeDescription[14] + "/n";
     }
     if (atmos == 0 && hydro == 0) {
         // Sterile
-        systemTradeCodes[codeCount] = tradeCode[15];
-        systemTradeDescriptions[codeCount] = tradeDescription[15];
-        codeCount++;
+        systemTradeCodes[sysnum] += tradeCode[15] + " ";
+        systemTradeDescriptions[sysnum] += tradeCode[15] + " " + tradeDescription[15] + "/n";
     }
     if ((Hydro == 10 || hydro == 11) && atmos > 1) {
         // Poor
-        systemTradeCodes[codeCount] = tradeCode[16];
-        systemTradeDescriptions[codeCount] = tradeDescription[16];
-        codeCount++;
+        systemTradeCodes[sysnum] += tradeCode[16] + " ";
+        systemTradeDescriptions[sysnum] += tradeCode[16] + " " + tradeDescription[16] + "/n";
     }
     if (atmos == 0) {
         // Vacuum
-        systemTradeCodes[codeCount] = tradeCode[17];
-        systemTradeDescriptions[codeCount] = tradeDescription[17];
-        codeCount++;
+        systemTradeCodes[sysnum] += tradeCode[17] + " ";
+        systemTradeDescriptions[sysnum] += tradeCode[17] + " " + tradeDescription[17] + "/n";
     }
-    allTradeDescriptions = ""
-    allTradeCodes = ""
-    first = true
-    for (i=0; i<codeCount; i++) {
-        if (first) {
-            allTradeDescriptions += systemTradeDescriptions[i]
-            allTradeCodes += systemTradeCodes[i]
-            first=false
-        } else {
-            allTradeDescriptions += ", " + systemTradeDescriptions[i]
-            allTradeCodes += " " + systemTradeCodes[i]
-        }
-    }
-    document.getElementById('Codes').innerText = allTradeDescriptions
 }
 
+function setCodes(sysnum) {
+    document.getElementById('Codes').innerText = tradeDescription[sysnum]
+}
 
 // Assorted random functions
 // Flip a coin
