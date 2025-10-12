@@ -6,22 +6,41 @@
     <title>Traveller System Generator</title>
     <script src="sysgen.js"></script>
 </head>
+<style>
+div.canvasContainer {
+  width:60%;
+  overflow:auto;
+}
+div.canvasContainer div {
+  width:50%;
+  float:left;
+}
+</style>
 <body>
-    <h1>Sector Generator</h1>
-    <canvas id="Sector" width="504" height="734"></canvas>
-    <button onclick="generateCanvas();setSystem(0);">Generate</button>
-    <p id="Stars"></p>
-    <textarea rows=8 cols=64 id="Planets"></textarea>
-    <p id="Location"></p>
-    <p id="UWP">UWP</p>
-    <p id="Port">Starport</p>
-    <p id="Size">Size</p>
-    <p id="Atmos">Atmosphere</p>
-    <p id="Hydro">Hydrology</p>
-    <p id="Pop">Population</p>
-    <p id="Gov">Government Type</p>
-    <p id="Law">Law Level</p>
-    <p id="Tech">Tech Level</p>
-    <p id="Codes">Trade Codes</p>
+<h1>Sector Generator</h1>
+<div class="canvasContainer">
+    <div>
+        <canvas id="Sector" width="504" height="734"></canvas>
+    </div>
+    <div>
+        <button onclick="generateCanvas();setSystem(0);">Generate</button>
+        <button onclick="previousSystem();">Previous System</button>
+        <button onclick="nextSystem();">Next System</button>
+        <p id="Stars"></p>
+        <textarea rows=8 cols=64 id="Planets"></textarea>
+        <p id="Location"></p>
+        <p id="UWP">UWP</p>
+        <p id="Port">Starport</p>
+        <p id="Size">Size</p>
+        <p id="Atmos">Atmosphere</p>
+        <p id="Hydro">Hydrology</p>
+        <p id="Pop">Population</p>
+        <p id="Gov">Government Type</p>
+        <p id="Law">Law Level</p>
+        <p id="Tech">Tech Level</p>
+        <p id="Codes">Trade Codes</p>
+
+    </div>
+</div>
 </body>
 </html>

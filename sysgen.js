@@ -23,7 +23,7 @@ govDetails = Array("None", "Company/Corporation ", "Participating Democracy ", "
 
 lawDetails = Array("No Restrictions", "No poison gas, explosives, undetectable weapons, or WMD", "No portable energy weapons (except ship-mounted weapons)", "No heavy weapons", "No light assault weapons or submachine guns", "No personal concealable weapons", "No firearms except shotguns and stunners; carrying weapons discouraged", "Only stunners allowed; carrying weapons discouraged", "Bladed weapons allowed, no firearms at all", "No weapons of any sort")
 
-techDetails = Array("No technology", "Roughly on a par with Bronze or Iron age technology.", "Renaissance technology.", "The germ of industrial revolution and steam power.", "The transition to industrial revolution is complete, bringing plastics, radio\nand other such inventions.", "Widespread electrification, telecommunications and internal combustion.", "Fission power and more advanced computing.", "A pre-stellar society can reach orbit reliably and has telecommunications satellites.", "At TL 8, it is possible to reach other worlds in the same system, although\nterraforming or full colonisation are not within reach.", "Gravity manipulation, which makes space travel vastly safer and faster.", "With the advent of Jump, nearby systems are opened up.", "The first true artificial intelligences become possible, as computers are\nable to model synaptic networks.", "Weather control revolutionises terraforming and agriculture.", "The battle dress appears on the battlefield in response to the new\nweapons.", "Fusion weapons become man-portable.", "Black globe generators suggest a new direction for defensive technologies,\nwhile the development of synthetic anagathics means that the human lifespan is\nnow vastly increased. Higher Technology Levels exist and\nmay appear in other settings or be discovered by pioneering scientists.", "Antimatter engines allow much longer jumps (J-8) with reasonable cargo,\ncounter weapons and shields improve, powered/active armor increases durability,\ncommunications equivalent to personal telepathy and good\nshielding", "All engines are compact, take fewer engineers, and perform extremely well,\nup to J-12 and M-16, P-18, human multiplicity physically and virtually is\ncommon, super-intelligent AI, low berths are 0 risk and cure\nalmost all cancers and diseases, forms are mutable.", "Speculative, J-16, M-20, P-24, extremely good armor, black globe with\ncomplete variability control and huge storage, cvapital ships can use black\nglobes to power outrageous arsenals.", "J-20, J-30 when not near massive objects, J-40 with obscure psionics\nintegrated into production and operation of engines and ships. Resurections,\nbackups, robo/physical/virtual multi-embodiement with merged\nconsciousness, meta-human groupings with others for even larger merged consciousnesses.\nImmunity to pretty much every form of death.")
+techDetails = Array("No technology", "Roughly on a par with Bronze or Iron age technology.", "Renaissance technology.", "The germ of industrial revolution and steam power.", "The transition to industrial revolution is complete, bringing plastics, radio and other such inventions.", "Widespread electrification, telecommunications and internal combustion.", "Fission power and more advanced computing.", "A pre-stellar society can reach orbit reliably and has telecommunications satellites.", "At TL 8, it is possible to reach other worlds in the same system, although\nterraforming or full colonisation are not within reach.", "Gravity manipulation, which makes space travel vastly safer and faster.", "With the advent of Jump, nearby systems are opened up.", "The first true artificial intelligences become possible, as computers are\nable to model synaptic networks.", "Weather control revolutionises terraforming and agriculture.", "The battle dress appears on the battlefield in response to the new\nweapons.", "Fusion weapons become man-portable.", "Black globe generators suggest a new direction for defensive technologies,\nwhile the development of synthetic anagathics means that the human lifespan is\nnow vastly increased. Higher Technology Levels exist and\nmay appear in other settings or be discovered by pioneering scientists.", "Antimatter engines allow much longer jumps (J-8) with reasonable cargo,\ncounter weapons and shields improve, powered/active armor increases durability,\ncommunications equivalent to personal telepathy and good\nshielding", "All engines are compact, take fewer engineers, and perform extremely well,\nup to J-12 and M-16, P-18, human multiplicity physically and virtually is\ncommon, super-intelligent AI, low berths are 0 risk and cure\nalmost all cancers and diseases, forms are mutable.", "Speculative, J-16, M-20, P-24, extremely good armor, black globe with\ncomplete variability control and huge storage, cvapital ships can use black\nglobes to power outrageous arsenals.", "J-20, J-30 when not near massive objects, J-40 with obscure psionics\nintegrated into production and operation of engines and ships. Resurections,\nbackups, robo/physical/virtual multi-embodiement with merged\nconsciousness, meta-human groupings with others for even larger merged consciousnesses.\nImmunity to pretty much every form of death.")
 techRange = Array("Primitive", "Primitive", "Primitive", "Primitive", "Industrial", "Industrial", "Industrial", "Pre-Stellar", "Pre-Stellar", "Pre-Stellar", "Early Stellar", "Early Stellar", "Average Stellar", "Average Stellar", "Average Stellar", "High Stellar", "High Stellar", "Low Sector", "Average Sector", "High Sector")
 
 tradeCode = Array("Ag", "As", "De", "Fl", "Ga", "Hi", "Ht", "Ic", "In", "Lo", "Lt", "Na", "Ni", "Po", "Ri", "St", "Wa", "Va")
@@ -40,33 +40,27 @@ num_GasGiants = Array(0)
 num_AsteroidBelts = Array(0)
 planetsDescription = Array("")
 
+currentSystem = 0;
 // World details, determined randomly
-starport = Array(0)
-starportCode = Array("X")
-uwp = Array("")
-systemTradeCodes = Array("")
-systemTradeDescriptions = Array("")
-size = Array(0)
-atmos = Array(0)
-hydro = Array(0)
-pop = Array(0)
-factor = Array(9)
-law = Array(0)
-gov = Array(0)
-splinters = Array(0)
-tech = Array(0)
-allTradeCodes = Array("")
+starport = Array(0);
+starportCode = Array("X");
+uwp = Array("");
+systemTradeCodes = Array("");
+systemTradeDescriptions = Array("");
+size = Array(0);
+atmos = Array(0);
+hydro = Array(0);
+pop = Array(0);
+factor = Array(0);
+law = Array(0);
+gov = Array(0);
+splinters = Array(0);
+tech = Array(0);
+allTradeCodes = Array("");
 
 function generateCanvas() {
-    const myCanvas = document.getElementById('Sector');
-    const ctx = myCanvas.getContext('2d');
-    ctx.font = "10px Arial";
-    ctx.fillStyle = "black";
-    drawing = new Image();
-    drawing.src = "hexagons.png";
     systemIndex = 0;
 
-    // while loading the png we can generate all the systems
     for (let i=0; i<8; i++) {
         for (let j=0; j<10; j++) {
             if (zero2one() == 1) {
@@ -77,6 +71,24 @@ function generateCanvas() {
             }
         }
     }
+    const myCanvas = document.getElementById('Sector');
+    elemLeft = myCanvas.offsetLeft + myCanvas.clientLeft;
+    elemTop = myCanvas.offsetTop + myCanvas.clientTop
+    const ctx = myCanvas.getContext('2d');
+    myCanvas.addEventListener('click', function(event) {
+    var x = event.pageX - elemLeft,
+        y = event.pageY - elemTop;
+        eCol = Math.floor((x - 38)/60)
+        eRow = Math.floor((y - 50)/60.4)
+        snum = matchRC(eRow, eCol)
+        if (snum > -1) {
+            setSystem(snum);
+        }
+    });
+    ctx.font = "13px Arial";
+    ctx.fillStyle = "black";
+    drawing = new Image();
+    drawing.src = "hexagons.png";
     drawing.onload = function() {
         ctx.drawImage(drawing,0,0);
         for (let i=0; i<4; i++) {
@@ -85,12 +97,20 @@ function generateCanvas() {
                 // so do the upper one first
                 i2 = i + i;
                 i21 = i2 + 1;
-                ctx.fillText(" " + j + i2, 40 + i*120, 25 + j*68.8);
+                ctx.fillText(" " + j + i2, 38 + i*120, 26 + j*68.8);
+                snum = matchRC(j, i2);
+                if (snum > -1) {
+                    ctx.fillText(uwp[snum], 14 + i*120, 50 + j*68.8);
+                }
                 // Now do the lower one
-                ctx.fillText("  " + j + i21, 96 + i*120, 57.7 + j*68.8);
+                ctx.fillText("  " + j + i21, 94 + i*120, 59.7 + j*68.8);
+                snum = matchRC(j, i21);
+                if (snum > -1) {
+                    ctx.fillText(uwp[snum], 72 + i*120, 85 + j*68.8);                    
+                }            
             }
         }
-    };
+    }
 
     /*
     for (let i=0; i<4; i++) {
@@ -142,6 +162,7 @@ function generateSystem(sysnum) {
 }
 
 function setSystem(sysnum) {
+    currentSystem = sysnum;
     setStars(sysnum);
     setStarsTypes(sysnum);
     setPlanets(sysnum);
@@ -175,25 +196,26 @@ function setStars(sysnum) {
 }
 
 function getStarsTypes(sysnum) {
+    starsDescription[sysnum] = ""
     z10 = zero2ten()
     switch (true) {
     case z10==0:
-        starsDescription[sysnum] = starsDescription[sysnum] + starTypes[0]
+        starsDescription[sysnum] += starTypes[0]
         break;
     case z10==1:
-        starsDescription[sysnum] = starsDescription[sysnum] + starTypes[1]
+        starsDescription[sysnum] += starTypes[1]
         break;
     case z10==2:
-        starsDescription[sysnum] = starsDescription[sysnum] + starTypes[2]
+        starsDescription[sysnum] += starTypes[2]
         break;
     case z10==3:
-        starsDescription[sysnum] = starsDescription[sysnum] + starTypes[3]
+        starsDescription[sysnum] += starTypes[3]
         break;
     case z10 > 3:
-        starsDescription[sysnum] = starsDescription[sysnum] + starTypes[4]
+        starsDescription[sysnum] += starTypes[4]
         break;
     default:
-        starsDescription[sysnum] = starsDescription[sysnum] + starTypes[3]
+        starsDescription[sysnum] += starTypes[3]
         break;
     }
     if (numStars[sysnum] > 1) {
@@ -224,24 +246,24 @@ function getStarsTypes(sysnum) {
             }
             switch (zero2five()) {
             case 0:
-                starsDescription[sysnum] = starsDescription[sysnum] + ", secondary " + starTypes[0] + " in " + nextOrbit
+                starsDescription[sysnum] += ", secondary " + starTypes[0] + " in " + nextOrbit
                 break;
             case 1:
-                starsDescription[sysnum] = starsDescription[sysnum] + ", secondary " + starTypes[1] + " in " + nextOrbit
+                starsDescription[sysnum] += ", secondary " + starTypes[1] + " in " + nextOrbit
                 break;
             case 2:
-                starsDescription[sysnum] = starsDescription[sysnum] + ", secondary " + starTypes[2] + " in " + nextOrbit
+                starsDescription[sysnum] += ", secondary " + starTypes[2] + " in " + nextOrbit
                 break;
             case 3:
-                starsDescription[sysnum] = starsDescription[sysnum] + ", secondary " + starTypes[3] + " in " + nextOrbit
+                starsDescription[sysnum] += ", secondary " + starTypes[3] + " in " + nextOrbit
                 break;
             case 4:
             case 5:
             case 6:
-                starsDescription[sysnum] = starsDescription[sysnum] + ", secondary " + starTypes[4] + " in " + nextOrbit
+                starsDescription[sysnum] += ", secondary " + starTypes[4] + " in " + nextOrbit
                 break;
             default:
-                starsDescription[sysnum] = starsDescription[sysnum] + ", secondary " + starTypes[3] + " in " + nextOrbit
+                starsDescription[sysnum] += ", secondary " + starTypes[3] + " in " + nextOrbit
                 break;
             }
         }
@@ -249,11 +271,12 @@ function getStarsTypes(sysnum) {
 }
 
 function setStarsTypes(sysnum) {
-    document.getElementById('Stars').innerHTML = starsDescription[sysnum]
+    document.getElementById('Stars').innerHTML += starsDescription[sysnum]
 }
 
 // that finshes the stars, next are planets and asteroid belts
 function getPlanets(sysnum) {
+    num_AsteroidBelts = 0;
     planetsDescription[sysnum] = ""
     Epistellar_Planets = 0;
     Inner_Planets = 0;
@@ -269,7 +292,7 @@ function getPlanets(sysnum) {
             Epistellar_Planets = 2;
         }
         if (Epistellar_Planets > 0) {
-            planetsDescription[sysnum] = planetsDescription[sysnum] + "Epistellar planets:\n";
+            planetsDescription[sysnum] += "Epistellar planets:\n";
             for (i=0; i<Epistellar_Planets; i++) {
                 getPlanet(sysnum);
             }
@@ -280,7 +303,7 @@ function getPlanets(sysnum) {
         Inner_Planets = 0;
     }
     if (Inner_Planets > 0) {
-        planetsDescription[sysnum] = planetsDescription[sysnum] + "Inner planets:\n";
+        planetsDescription[sysnum] += "Inner planets:\n";
         for (i = 0; i < Inner_Planets; i++) {
             getPlanet(sysnum);
         }
@@ -310,25 +333,25 @@ function getPlanet(sysnum) {
     switch (true) {
     case z2d < 1:
         if (zero2five() > 3) {
-            planetsDescription[sysnum] = planetsDescription[sysnum] + planetTypes[0] + " Mostly Dwarf planetoids, one " + planetTypes[1] + "\n";
+            planetsDescription[sysnum] += planetTypes[0] + " Mostly Dwarf planetoids, one " + planetTypes[1] + "\n";
             num_AsteroidBelts++
         } else {
-            planetsDescription[sysnum] = planetsDescription[sysnum] + planetTypes[0] + "\n";
+            planetsDescription[sysnum] += planetTypes[0] + "\n";
             num_AsteroidBelts++
         }
         break;
     case z2d == 1:
         if (zero2five() > 4) {
-            planetsDescription[sysnum] = planetsDescription[sysnum] + planetTypes[1], " Satellite " + planetTypes[1] + "\n";
+            planetsDescription[sysnum] += planetTypes[1], " Satellite " + planetTypes[1] + "\n";
         } else {
-            planetsDescription[sysnum] = planetsDescription[sysnum] + planetTypes[1] + "\n";;
+            planetsDescription[sysnum] += planetTypes[1] + "\n";;
         }
         break;
     case z2d == 2:
         if (zero2five() > 3) {
-            planetsDescription[sysnum] = planetsDescription[sysnum] + planetTypes[2] + " Satellite " + planetTypes[1] + "\n";
+            planetsDescription[sysnum] += planetTypes[2] + " Satellite " + planetTypes[1] + "\n";
         } else {
-            planetsDescription[sysnum] = planetsDescription[sysnum] + planetTypes[2] + "\n";
+            planetsDescription[sysnum] += planetTypes[2] + "\n";
         }
         break;
     case z2d == 3:
@@ -341,22 +364,22 @@ function getPlanet(sysnum) {
             if (zero2five() < 5) {
                 // All satelites are dwarfs
                 if (numSat == 1) {
-                    planetsDescription[sysnum] = planetsDescription[sysnum] + planetTypes[3] + " Sattelite " + planetTypes[1] + "\n";
+                    planetsDescription[sysnum] += planetTypes[3] + " Sattelite " + planetTypes[1] + "\n";
                 } else {
-                    planetsDescription[sysnum] = planetsDescription[sysnum] + planetTypes[3] + " Sattelite " + planetTypes[1] + numSat + "x " + planetTypes[1] + "\n";
+                    planetsDescription[sysnum] += planetTypes[3] + " Sattelite " + planetTypes[1] + numSat + "x " + planetTypes[1] + "\n";
                 }
             } else {
                 // One satellite is terrestrial
                 if (numSat == 1) {
-                    planetsDescription[sysnum] = planetsDescription[sysnum] + planetTypes[3] + " Satellite " + planetTypes[1]  + "\n";
+                    planetsDescription[sysnum] += planetTypes[3] + " Satellite " + planetTypes[1]  + "\n";
                 } else if (numSat == 2) {
-                    planetsDescription[sysnum] = planetsDescription[sysnum] + planetTypes[3] + " Satellite " + planetTypes[2] + " & " + planetTypes[1] + "\n";
+                    planetsDescription[sysnum] += planetTypes[3] + " Satellite " + planetTypes[2] + " & " + planetTypes[1] + "\n";
                 } else {
-                    planetsDescription[sysnum] = planetsDescription[sysnum] + planetTypes[3] + " Satellite " + planetTypes[2] + numSat + "x " + planetTypes[1] + "\n";
+                    planetsDescription[sysnum] += planetTypes[3] + " Satellite " + planetTypes[2] + numSat + "x " + planetTypes[1] + "\n";
                 }
             }
         } else {
-            planetsDescription[sysnum] = planetsDescription[sysnum] + planetTypes[3] + "\n";
+            planetsDescription[sysnum] += planetTypes[3] + "\n";
         }
         break;
     case z2d < 7:
@@ -364,31 +387,31 @@ function getPlanet(sysnum) {
         if (zero2five() < 5) {
             // All satelites are dwarfs
             if (numSat == 1) {
-                planetsDescription[sysnum] = planetsDescription[sysnum] + planetTypes[4] + " Sattelite " + planetTypes[1] + "\n";
+                planetsDescription[sysnum] += planetTypes[4] + " Sattelite " + planetTypes[1] + "\n";
                 num_GasGiants++
             } else {
-                planetsDescription[sysnum] = planetsDescription[sysnum] + planetTypes[4] + " Satellite " + numSat + "x " + planetTypes[1] + "\n";
+                planetsDescription[sysnum] += planetTypes[4] + " Satellite " + numSat + "x " + planetTypes[1] + "\n";
                 num_GasGiants++
             }
         } else {
             // One satellite is terrestrial
             if (numSat == 1) {
-                planetsDescription[sysnum] = planetsDescription[sysnum] + planetTypes[4] + " Satellite " + planetTypes[2] + "\n";
+                planetsDescription[sysnum] += planetTypes[4] + " Satellite " + planetTypes[2] + "\n";
                 num_GasGiants++
             } else if (numSat == 2) {
-                planetsDescription[sysnum] = planetsDescription[sysnum] + planetTypes[4] + " Satellites " + planetTypes[2] + " & " + planetTypes[1] + "\n";
+                planetsDescription[sysnum] += planetTypes[4] + " Satellites " + planetTypes[2] + " & " + planetTypes[1] + "\n";
                 num_GasGiants++
             } else {
-                planetsDescription[sysnum] = planetsDescription[sysnum] + planetTypes[4] + " Sattelites " + planetTypes[2] + " & " + numSat + "x " + planetTypes[1] + "\n";
+                planetsDescription[sysnum] += planetTypes[4] + " Sattelites " + planetTypes[2] + " & " + numSat + "x " + planetTypes[1] + "\n";
                 num_GasGiants++
             }
         }
         break;
     default:
         if (zero2five() > 3) {
-            planetsDescription[sysnum] = planetsDescription[sysnum] + planetTypes[2], " Satellite " + planetTypes[1] + "\n";
+            planetsDescription[sysnum] += planetTypes[2], " Satellite " + planetTypes[1] + "\n";
         } else {
-            planetsDescription[sysnum] = planetsDescription[sysnum] + planetTypes[2] + "\n";
+            planetsDescription[sysnum] += planetTypes[2] + "\n";
         }
         break;
     }
@@ -615,111 +638,139 @@ function setTech(sysnum) {
 // before getUWP(). Ditto all the earlier get*() routines, they go\
 // before getUWP() as well.
 function getUWP(sysnum) {
-    uwp[sysnum] = starportTypes[starport[sysnum]] + tl[size[sysnum]] + tl[atmos[sysnum]] + tl[hydro[sysnum]] + tl[pop[sysnum]] + tl[gov[sysnum]] + "-" + tl[tech[sysnum]];
+    uwp[sysnum] = starportTypes[starport[sysnum]] + tl[size[sysnum]] + tl[atmos[sysnum]] + tl[hydro[sysnum]] + tl[pop[sysnum]] + tl[gov[sysnum]] + tl[law[sysnum]] + "-" + tl[tech[sysnum]];
 }
 
 function setUWP(sysnum) {
-    document.getElementById('UWP').innerText = "UWP " + uwp[sysnum] + "\nTrade codes: " + allTradeCodes[sysnum];
+    document.getElementById('UWP').innerText = "UWP " + uwp[sysnum] + "\nTrade codes: " + systemTradeCodes[sysnum];
 }
 
 function getCodes(sysnum) {
+    systemTradeCodes[sysnum] = "";
+    systemTradeDescriptions[sysnum] = "";
     if (atmos[sysnum] > 3 && atmos[sysnum] < 10 && hydro[sysnum] > 3 && hydro[sysnum] < 9 && pop[sysnum] > 4 && pop[sysnum] < 8) {
         // Agriculture
         systemTradeCodes[sysnum] += tradeCode[0] + " ";
-        systemTradeDescriptions[sysnum] += tradeCode[0] + " " + tradeDescription[0] + "/n";
+        systemTradeDescriptions[sysnum] += tradeCode[0] + " " + tradeDescription[0] + "\n";
     }
-    if (num_AsteroidBelts > 0) {
+    if (num_AsteroidBelts[sysnum] > 0) {
         // Asteroid Belt(s)
         systemTradeCodes[sysnum] += tradeCode[1] + " ";
-        systemTradeDescriptions[sysnum] += tradeCode[1] + " " + tradeDescription[1] + "/n";
+        systemTradeDescriptions[sysnum] += tradeCode[1] + " " + tradeDescription[1] + "\n";
     }
-    if (atmos > 1 && atmos < 14 && hydro == 0) {
+    if (atmos[sysnum] > 1 && atmos[sysnum] < 14 && hydro[sysnum] == 0) {
         // Desert
         systemTradeCodes[sysnum] += tradeCode[2] + " ";
-        systemTradeDescriptions[sysnum] += tradeCode[2] + " " + tradeDescription[2] + "/n";
+        systemTradeDescriptions[sysnum] += tradeCode[2] + " " + tradeDescription[2] + "\n";
     }
-    if (atmos > 9 || (hydro > 0 && hydro < 12)) {
+    if (atmos[sysnum] > 9 || (hydro[sysnum] > 0 && hydro[sysnum] < 12)) {
         // Fluid Oceans
         systemTradeCodes[sysnum] += tradeCode[3] + " ";
-        systemTradeDescriptions[sysnum] += tradeCode[3] + " " + tradeDescription[3] + "/n";
+        systemTradeDescriptions[sysnum] += tradeCode[3] + " " + tradeDescription[3] + "\n";
     }
-    if (size > 4 && size < 11 && atmos > 3 && atmos < 10 && hydro > 3 && hydro < 9) {
+    if (size[sysnum] > 4 && size[sysnum] < 11 && atmos[sysnum] > 3 && atmos[sysnum] < 10 && hydro[sysnum] > 3 && hydro[sysnum] < 9) {
         // Garden
         systemTradeCodes[sysnum] += tradeCode[4] + " ";
-        systemTradeDescriptions[sysnum] += tradeCode[4] + " " + tradeDescription[4] + "/n";
+        systemTradeDescriptions[sysnum] += tradeCode[4] + " " + tradeDescription[4] + "\n";
     }
-    if (pop  > 8) {
+    if (pop[sysnum] > 8) {
         // High Population
         systemTradeCodes[sysnum] += tradeCode[5] + " ";
-        systemTradeDescriptions[sysnum] += tradeCode[5] + " " + tradeDescription[5] + "/n";
+        systemTradeDescriptions[sysnum] += tradeCode[5] + " " + tradeDescription[5] + "\n";
     }
-    if (tech  > 9) {
+    if (tech[sysnum]  > 9) {
         // High Tech;
         systemTradeCodes[sysnum] += tradeCode[6] + " ";
-        systemTradeDescriptions[sysnum] += tradeCode[6] + " " + tradeDescription[6] + "/n";
+        systemTradeDescriptions[sysnum] += tradeCode[6] + " " + tradeDescription[6] + "\n";
     }
-    if (atmos < 2 && hydro > 0) {
+    if (atmos[sysnum] < 2 && hydro[sysnum] > 0) {
         // Ice Capped
         systemTradeCodes[sysnum] += tradeCode[7] + " ";
-        systemTradeDescriptions[sysnum] += tradeCode[7] + " " + tradeDescription[7] + "/n";
+        systemTradeDescriptions[sysnum] += tradeCode[7] + " " + tradeDescription[7] + "\n";
     }
-    if (pop > 8 && tech > 6) {
+    if (pop[sysnum] > 8 && tech[sysnum] > 6) {
         // Industrial
         systemTradeCodes[sysnum] += tradeCode[8] + " ";
-        systemTradeDescriptions[sysnum] += tradeCode[8] + " " + tradeDescription[8] + "/n";
+        systemTradeDescriptions[sysnum] += tradeCode[8] + " " + tradeDescription[8] + "\n";
     }
-    if (pop < 4) {
+    if (pop[sysnum] < 4) {
         // Low Population
         systemTradeCodes[sysnum] += tradeCode[9] + " ";
-        systemTradeDescriptions[sysnum] += tradeCode[9] + " " + tradeDescription[9] + "/n";
+        systemTradeDescriptions[sysnum] += tradeCode[9] + " " + tradeDescription[9] + "\n";
     }
-    if (tech < 6) {
+    if (tech[sysnum] < 6) {
         // Low Tech
         systemTradeCodes[sysnum] += tradeCode[10] + " ";
-        systemTradeDescriptions[sysnum] += tradeCode[10] + " " + tradeDescription[10] + "/n";
+        systemTradeDescriptions[sysnum] += tradeCode[10] + " " + tradeDescription[10] + "\n";
     }
-    if ((atmos < 4 || atmos > 10 || hydro < 4 || hydro > 10) && pop > 5) {
+    if ((atmos[sysnum] < 4 || atmos[sysnum] > 10 || hydro[sysnum] < 4 || hydro[sysnum] > 10) && pop[sysnum] > 5) {
         // Non-Agricultural
         systemTradeCodes[sysnum] += tradeCode[11] + " ";
-        systemTradeDescriptions[sysnum] += tradeCode[11] + " " + tradeDescription[11] + "/n";
+        systemTradeDescriptions[sysnum] += tradeCode[11] + " " + tradeDescription[11] + "\n";
     }
-    if (pop  > 3 && pop < 7) {
+    if (pop[sysnum]  > 3 && pop[sysnum] < 7) {
         // Non-Industrial
         systemTradeCodes[sysnum] += tradeCode[12] + " ";
-        systemTradeDescriptions[sysnum] += tradeCode[12] + " " + tradeDescription[12] + "/n";
+        systemTradeDescriptions[sysnum] += tradeCode[12] + " " + tradeDescription[12] + "\n";
     }
-    if (atmos > 1 && atmos < 6 && hydro < 4) {
+    if (atmos[sysnum] > 1 && atmos[sysnum] < 6 && hydro[sysnum] < 4) {
         // Poor
         systemTradeCodes[sysnum] += tradeCode[13] + " ";
-        systemTradeDescriptions[sysnum] += tradeCode[13] + " " + tradeDescription[13] + "/n";
+        systemTradeDescriptions[sysnum] += tradeCode[13] + " " + tradeDescription[13] + "\n";
     }
-    if ((atmos == 6 || atmos == 8) && pop > 5 && pop < 9) {
+    if ((atmos[sysnum] == 6 || atmos[sysnum] == 8) && pop[sysnum] > 5 && pop[sysnum] < 9) {
         // Rich
         systemTradeCodes[sysnum] += tradeCode[14] + " ";
-        systemTradeDescriptions[sysnum] += tradeCode[14] + " " + tradeDescription[14] + "/n";
+        systemTradeDescriptions[sysnum] += tradeCode[14] + " " + tradeDescription[14] + "\n";
     }
-    if (atmos == 0 && hydro == 0) {
+    if (atmos[sysnum] == 0 && hydro[sysnum] == 0) {
         // Sterile
         systemTradeCodes[sysnum] += tradeCode[15] + " ";
-        systemTradeDescriptions[sysnum] += tradeCode[15] + " " + tradeDescription[15] + "/n";
+        systemTradeDescriptions[sysnum] += tradeCode[15] + " " + tradeDescription[15] + "\n";
     }
-    if ((Hydro == 10 || hydro == 11) && atmos > 1) {
+    if ((hydro[sysnum] == 10 || hydro[sysnum] == 11) && atmos[sysnum] > 1) {
         // Poor
         systemTradeCodes[sysnum] += tradeCode[16] + " ";
-        systemTradeDescriptions[sysnum] += tradeCode[16] + " " + tradeDescription[16] + "/n";
+        systemTradeDescriptions[sysnum] += tradeCode[16] + " " + tradeDescription[16] + "\n";
     }
-    if (atmos == 0) {
+    if (atmos[sysnum] == 0) {
         // Vacuum
         systemTradeCodes[sysnum] += tradeCode[17] + " ";
-        systemTradeDescriptions[sysnum] += tradeCode[17] + " " + tradeDescription[17] + "/n";
+        systemTradeDescriptions[sysnum] += tradeCode[17] + " " + tradeDescription[17] + "\n";
     }
 }
 
 function setCodes(sysnum) {
-    document.getElementById('Codes').innerText = tradeDescription[sysnum]
+    document.getElementById('Codes').innerText = systemTradeDescriptions[sysnum]
+}
+
+function nextSystem() {
+    currentSystem++;
+    if (currentSystem > row.length) {
+        currentSystem = 0;
+    }
+    setSystem(currentSystem)
+}
+
+function previousSystem() {
+    currentSystem--;
+    if (currentSystem < 0) {
+        currentSystem = row.length - 1;
+    }
+    setSystem(currentSystem)
 }
 
 // Assorted random functions
+//
+function matchRC(rownum, colnum) {
+    for (i=0; i<row.length; i++) {
+        if (row[i] == rownum && column[i] == colnum) {
+            return i
+        }
+    }
+    return -1
+}
+
 // Flip a coin
 function zero2one() {
     return Math.floor(Math.random() * 2);
@@ -752,5 +803,5 @@ function zero2fifteen() {
 
 // get a single digit, 1 to 9, all equally likely
 function one2nine1d () {
-    return Math.floor(Math.random() * 9)
+    return Math.floor(Math.random() * 8 + 1)
 }
