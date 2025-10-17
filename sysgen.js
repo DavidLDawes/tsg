@@ -23,12 +23,49 @@ govDetails = Array("None", "Company/Corporation ", "Participating Democracy ", "
 
 lawDetails = Array("No Restrictions", "No poison gas, explosives, undetectable weapons, or WMD", "No portable energy weapons (except ship-mounted weapons)", "No heavy weapons", "No light assault weapons or submachine guns", "No personal concealable weapons", "No firearms except shotguns and stunners; carrying weapons discouraged", "Only stunners allowed; carrying weapons discouraged", "Bladed weapons allowed, no firearms at all", "No weapons of any sort")
 
-techDetails = Array("No technology", "Roughly on a par with Bronze or Iron age technology.", "Renaissance technology.", "The germ of industrial revolution and steam power.", "The transition to industrial revolution is complete, bringing plastics, radio and other such inventions.", "Widespread electrification, telecommunications and internal combustion.", "Fission power and more advanced computing.", "A pre-stellar society can reach orbit reliably and has telecommunications satellites.", "At TL 8, it is possible to reach other worlds in the same system, although\nterraforming or full colonisation are not within reach.", "Gravity manipulation, which makes space travel vastly safer and faster.", "With the advent of Jump, nearby systems are opened up.", "The first true artificial intelligences become possible, as computers are\nable to model synaptic networks.", "Weather control revolutionises terraforming and agriculture.", "The battle dress appears on the battlefield in response to the new\nweapons.", "Fusion weapons become man-portable.", "Black globe generators suggest a new direction for defensive technologies,\nwhile the development of synthetic anagathics means that the human lifespan is\nnow vastly increased. Higher Technology Levels exist and\nmay appear in other settings or be discovered by pioneering scientists.", "Antimatter engines allow much longer jumps (J-8) with reasonable cargo, counter weapons and shields improve,\npowered/active armor increases durability, communications equivalent to\npersonal telepathy and good shielding", "All engines are compact, take fewer engineers, and perform extremely well,\nup to J-12 and M-16, P-18, human multiplicity physically and virtually is\ncommon, super-intelligent AI, low berths are 0 risk and cure\nalmost all cancers and diseases, forms are mutable.", "Speculative, J-16, M-20, P-24, extremely good armor, black globe with\ncomplete variability control and huge storage, capital ships can use black\nglobes to power outrageous arsenals.", "J-20, J-30 when not near massive objects, J-40 with obscure psionics\nintegrated into production and operation of engines and ships. Resurections,\nbackups, robo/physical/virtual multi-embodiement with merged\nconsciousness, meta-human groupings with others for even larger merged consciousnesses.\nImmunity to pretty much every form of death.")
+techDetails = Array("No technology", "Roughly on a par with Bronze or Iron age technology.", "Renaissance technology.", "The germ of industrial revolution and steam power.", "The transition to industrial revolution is complete, bringing plastics, radio and other such inventions.", "Widespread electrification, telecommunications and internal combustion.", "Fission power and more advanced computing.", "A pre-stellar society can reach orbit reliably and has telecommunications satellites.", "At TL 8, it is possible to reach other worlds in the same system, although\nterraforming or full colonisation are not within reach.", "Gravity manipulation, which makes space travel vastly safer and faster.", "With the advent of Jump, nearby systems are opened up.", "The first true artificial intelligences become possible, as computers are\nable to model synaptic networks.", "Weather control revolutionises terraforming and agriculture.", "The battle dress appears on the battlefield in response to the new\nweapons.", "Fusion weapons become man-portable.", "Black globe generators suggest a new direction for\ndefensive technologies, while the development\nof synthetic anagathics means that the human lifespan is\nnow vastly increased. Higher Technology Levels exist\nand may appear in other settings or be discovered\nby pioneering scientists.", "Antimatter engines allow much longer jumps (J-8) with reasonable cargo, counter weapons and shields improve,\npowered/active armor increases durability, communications equivalent to\npersonal telepathy and good shielding", "All engines are compact, take fewer engineers, and perform extremely well,\nup to J-12 and M-16, P-18, human multiplicity physically and virtually is\ncommon, super-intelligent AI, low berths are 0 risk and cure\nalmost all cancers and diseases, forms are mutable.", "Speculative, J-16, M-20, P-24, extremely good armor, black globe with\ncomplete variability control and huge storage, capital ships can use black\nglobes to power outrageous arsenals.", "J-20, J-30 when not near massive objects, J-40 with obscure psionics\nintegrated into production and operation of engines and ships. Resurections,\nbackups, robo/physical/virtual multi-embodiement with merged\nconsciousness, meta-human groupings with others for even larger merged consciousnesses.\nImmunity to pretty much every form of death.")
 techRange = Array("Primitive", "Primitive", "Primitive", "Primitive", "Industrial", "Industrial", "Industrial", "Pre-Stellar", "Pre-Stellar", "Pre-Stellar", "Early Stellar", "Early Stellar", "Average Stellar", "Average Stellar", "Average Stellar", "High Stellar", "High Stellar", "Low Sector", "Average Sector", "High Sector")
 
 tradeCode = Array("Ag", "As", "De", "Fl", "Ga", "Hi", "Ht", "Ic", "In", "Lo", "Lt", "Na", "Ni", "Po", "Ri", "St", "Wa", "Va")
 tradeDescription = Array("Agricultural", "Asteroid Belt", "Desert", "Fluid Oceans", "Garden", "High Population", "High Technology", "Ice-Capped", "Industrial", "Low Population", "Low Technology", "Non-Agricultural", "Non-Industrial", "Poor", "Rich", "Sterile", "Water World", "Vacuum")
-// System details, determined randomly
+
+// Subsector management - we have 16 subsectors (4x4 grid)
+currentSubsector = 0;
+subsectorData = Array(16);
+
+// Initialize empty arrays for each subsector
+for (let i = 0; i < 16; i++) {
+    subsectorData[i] = {
+        column: [],
+        row: [],
+        numStars: [],
+        Moderate_Companion: [],
+        Distant_Companion: [],
+        Close_Companion: [],
+        starsDescription: [],
+        num_GasGiants: [],
+        num_AsteroidBelts: [],
+        planetsDescription: [],
+        currentSystem: 0,
+        starport: [],
+        starportCode: [],
+        uwp: [],
+        systemTradeCodes: [],
+        systemTradeDescriptions: [],
+        size: [],
+        atmos: [],
+        hydro: [],
+        pop: [],
+        factor: [],
+        law: [],
+        gov: [],
+        splinters: [],
+        tech: [],
+        allTradeCodes: []
+    };
+}
+
+// System details, determined randomly (references to current subsector)
 column = Array(0)
 row = Array(0)
 numStars = Array(1)
@@ -59,18 +96,57 @@ tech = Array(0);
 allTradeCodes = Array("");
 
 function generateCanvas(odds) {
-    systemIndex = 0;
+    // Generate all 16 subsectors
+    for (let subsector = 0; subsector < 16; subsector++) {
+        // Reset the working arrays
+        column = [];
+        row = [];
+        numStars = [];
+        Moderate_Companion = [];
+        Distant_Companion = [];
+        Close_Companion = [];
+        starsDescription = [];
+        num_GasGiants = [];
+        num_AsteroidBelts = [];
+        planetsDescription = [];
+        starport = [];
+        starportCode = [];
+        uwp = [];
+        systemTradeCodes = [];
+        systemTradeDescriptions = [];
+        size = [];
+        atmos = [];
+        hydro = [];
+        pop = [];
+        factor = [];
+        law = [];
+        gov = [];
+        splinters = [];
+        tech = [];
+        allTradeCodes = [];
 
-    for (let i=0; i<8; i++) {
-        for (let j=0; j<10; j++) {
-            if (variableOdds(odds)) {
-                column[systemIndex] = i;
-                row[systemIndex] = j;
-                generateSystem(systemIndex);
-                systemIndex++;
+        let systemIndex = 0;
+
+        for (let i=0; i<8; i++) {
+            for (let j=0; j<10; j++) {
+                if (variableOdds(odds)) {
+                    column[systemIndex] = i;
+                    row[systemIndex] = j;
+                    generateSystem(systemIndex);
+                    systemIndex++;
+                }
             }
         }
+
+        // Save this subsector's data
+        saveSubsectorData(subsector);
     }
+
+    // Load the first subsector for display
+    currentSubsector = 0;
+    loadSubsectorData(0);
+
+    // Draw the canvas
     const myCanvas = document.getElementById('Sector');
     elemLeft = myCanvas.offsetLeft + myCanvas.clientLeft;
     elemTop = myCanvas.offsetTop + myCanvas.clientTop
@@ -152,6 +228,94 @@ function updateCanvasColors() {
     }
 }
 
+
+function loadSubsectorData(subsector) {
+    currentSubsector = subsector;
+    const data = subsectorData[subsector];
+
+    column = data.column;
+    row = data.row;
+    numStars = data.numStars;
+    Moderate_Companion = data.Moderate_Companion;
+    Distant_Companion = data.Distant_Companion;
+    Close_Companion = data.Close_Companion;
+    starsDescription = data.starsDescription;
+    num_GasGiants = data.num_GasGiants;
+    num_AsteroidBelts = data.num_AsteroidBelts;
+    planetsDescription = data.planetsDescription;
+    currentSystem = data.currentSystem;
+    starport = data.starport;
+    starportCode = data.starportCode;
+    uwp = data.uwp;
+    systemTradeCodes = data.systemTradeCodes;
+    systemTradeDescriptions = data.systemTradeDescriptions;
+    size = data.size;
+    atmos = data.atmos;
+    hydro = data.hydro;
+    pop = data.pop;
+    factor = data.factor;
+    law = data.law;
+    gov = data.gov;
+    splinters = data.splinters;
+    tech = data.tech;
+    allTradeCodes = data.allTradeCodes;
+
+    // Update the subsector display
+    document.getElementById('SubsectorNum').innerText = "Subsector " + (subsector + 1) + " of 16";
+}
+
+function saveSubsectorData(subsector) {
+    const data = subsectorData[subsector];
+
+    data.column = column;
+    data.row = row;
+    data.numStars = numStars;
+    data.Moderate_Companion = Moderate_Companion;
+    data.Distant_Companion = Distant_Companion;
+    data.Close_Companion = Close_Companion;
+    data.starsDescription = starsDescription;
+    data.num_GasGiants = num_GasGiants;
+    data.num_AsteroidBelts = num_AsteroidBelts;
+    data.planetsDescription = planetsDescription;
+    data.currentSystem = currentSystem;
+    data.starport = starport;
+    data.starportCode = starportCode;
+    data.uwp = uwp;
+    data.systemTradeCodes = systemTradeCodes;
+    data.systemTradeDescriptions = systemTradeDescriptions;
+    data.size = size;
+    data.atmos = atmos;
+    data.hydro = hydro;
+    data.pop = pop;
+    data.factor = factor;
+    data.law = law;
+    data.gov = gov;
+    data.splinters = splinters;
+    data.tech = tech;
+    data.allTradeCodes = allTradeCodes;
+}
+
+function nextSubsector() {
+    saveSubsectorData(currentSubsector);
+    currentSubsector++;
+    if (currentSubsector >= 16) {
+        currentSubsector = 0;
+    }
+    loadSubsectorData(currentSubsector);
+    updateCanvasColors();
+    setSystem(0);
+}
+
+function previousSubsector() {
+    saveSubsectorData(currentSubsector);
+    currentSubsector--;
+    if (currentSubsector < 0) {
+        currentSubsector = 15;
+    }
+    loadSubsectorData(currentSubsector);
+    updateCanvasColors();
+    setSystem(0);
+}
 
 function generateSystem(sysnum) {
     getStarsNum(sysnum);
