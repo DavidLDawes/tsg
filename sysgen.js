@@ -146,6 +146,32 @@ function generateCanvas(odds) {
     currentSubsector = 0;
     loadSubsectorData(0);
 
+    // Draw the subsector grid
+    drawSubsectorGrid();
+
+    // Add click listener to subsector grid
+    const subsectorCanvas = document.getElementById('SubsectorGrid');
+    subsectorCanvas.addEventListener('click', function(event) {
+        const rect = subsectorCanvas.getBoundingClientRect();
+        const x = event.clientX - rect.left;
+        const y = event.clientY - rect.top;
+
+        const cellSize = 100;
+        const col = Math.floor(x / cellSize);
+        const row = Math.floor(y / cellSize);
+
+        if (col >= 0 && col < 4 && row >= 0 && row < 4) {
+            const clickedSubsector = row * 4 + col;
+            if (clickedSubsector !== currentSubsector) {
+                saveSubsectorData(currentSubsector);
+                loadSubsectorData(clickedSubsector);
+                drawSubsectorGrid();
+                updateCanvasColors();
+                setSystem(0);
+            }
+        }
+    });
+
     // Draw the canvas
     const myCanvas = document.getElementById('Sector');
     elemLeft = myCanvas.offsetLeft + myCanvas.clientLeft;
@@ -168,6 +194,42 @@ function generateCanvas(odds) {
     drawing.onload = function() {
         ctx.drawImage(drawing,0,0);
         drawAllUWPs();
+    }
+}
+
+function drawSubsectorGrid() {
+    const canvas = document.getElementById('SubsectorGrid');
+    const ctx = canvas.getContext('2d');
+    const gridSize = 4;
+    const cellSize = 100; // 400 / 4
+
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.font = "20px Arial";
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+
+    for (let row = 0; row < gridSize; row++) {
+        for (let col = 0; col < gridSize; col++) {
+            const subsectorNum = row * gridSize + col;
+            const x = col * cellSize;
+            const y = row * cellSize;
+
+            // Draw cell border
+            ctx.strokeStyle = "black";
+            ctx.lineWidth = 2;
+            ctx.strokeRect(x, y, cellSize, cellSize);
+
+            // Highlight current subsector
+            if (subsectorNum === currentSubsector) {
+                ctx.fillStyle = "lightblue";
+                ctx.fillRect(x, y, cellSize, cellSize);
+                ctx.strokeRect(x, y, cellSize, cellSize);
+            }
+
+            // Draw subsector number
+            ctx.fillStyle = "black";
+            ctx.fillText((subsectorNum + 1).toString(), x + cellSize / 2, y + cellSize / 2);
+        }
     }
 }
 
@@ -302,6 +364,7 @@ function nextSubsector() {
         currentSubsector = 0;
     }
     loadSubsectorData(currentSubsector);
+    drawSubsectorGrid();
     updateCanvasColors();
     setSystem(0);
 }
@@ -313,6 +376,7 @@ function previousSubsector() {
         currentSubsector = 15;
     }
     loadSubsectorData(currentSubsector);
+    drawSubsectorGrid();
     updateCanvasColors();
     setSystem(0);
 }
