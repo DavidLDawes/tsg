@@ -23,9 +23,16 @@ div.canvasContainer div {
         <canvas id="Sector" width="504" height="734"></canvas>
     </div>
     <div>
-        <button onclick="generateCanvas();setSystem(0);">Generate</button>
+        <button onclick="generateCanvas(50);setSystem(0);">Generate, 50% chance of systems</button>
+        <button onclick="generateCanvas(40);setSystem(0);">Generate, 40% chance of systems</button>
         <button onclick="previousSystem();">Previous System</button>
         <button onclick="nextSystem();">Next System</button>
+        <select id="filterSelect" onchange="updateCanvasColors();">
+            <option value="">All Systems</option>
+            <option value="Hi">Hi Pop</option>
+            <option value="Ht">Hi Tech</option>
+            <option value="Ag">Ag</option>
+        </select>
         <p id="Stars"></p>
         <textarea rows=8 cols=64 id="Planets"></textarea>
         <p id="Location"></p>
