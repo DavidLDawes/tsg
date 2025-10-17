@@ -275,7 +275,7 @@ function setStarsTypes(sysnum) {
 
 // that finshes the stars, next are planets and asteroid belts
 function getPlanets(sysnum) {
-    num_AsteroidBelts = 0;
+    num_AsteroidBelts[sysnum] = 0;
     planetsDescription[sysnum] = ""
     Epistellar_Planets = 0;
     Inner_Planets = 0;
@@ -333,10 +333,10 @@ function getPlanet(sysnum) {
     case z2d < 1:
         if (zero2five() > 3) {
             planetsDescription[sysnum] += planetTypes[0] + " Mostly Dwarf planetoids, one " + planetTypes[1] + "\n";
-            num_AsteroidBelts++
+            num_AsteroidBelts[sysnum]++
         } else {
             planetsDescription[sysnum] += planetTypes[0] + "\n";
-            num_AsteroidBelts++
+            num_AsteroidBelts[sysnum]++
         }
         break;
     case z2d == 1:
@@ -387,22 +387,22 @@ function getPlanet(sysnum) {
             // All satelites are dwarfs
             if (numSat == 1) {
                 planetsDescription[sysnum] += planetTypes[4] + " Sattelite " + planetTypes[1] + "\n";
-                num_GasGiants++
+                num_GasGiants[sysnum]++
             } else {
                 planetsDescription[sysnum] += planetTypes[4] + " Satellite " + numSat + "x " + planetTypes[1] + "\n";
-                num_GasGiants++
+                num_GasGiants[sysnum]++
             }
         } else {
             // One satellite is terrestrial
             if (numSat == 1) {
                 planetsDescription[sysnum] += planetTypes[4] + " Satellite " + planetTypes[2] + "\n";
-                num_GasGiants++
+                num_GasGiants[sysnum]++
             } else if (numSat == 2) {
                 planetsDescription[sysnum] += planetTypes[4] + " Satellites " + planetTypes[2] + " & " + planetTypes[1] + "\n";
-                num_GasGiants++
+                num_GasGiants[sysnum]++
             } else {
                 planetsDescription[sysnum] += planetTypes[4] + " Sattelites " + planetTypes[2] + " & " + numSat + "x " + planetTypes[1] + "\n";
-                num_GasGiants++
+                num_GasGiants[sysnum]++
             }
         }
         break;
@@ -840,4 +840,93 @@ function one2nine1d () {
 // variable odds: pass on 1 to 99, get that percentage likelihood of a true result
 function variableOdds (odds) {
     return odds > Math.floor(Math.random() * 100)
+}
+
+// Save all system details to a text file and canvas image
+function saveToFile() {
+    // Save as a text file
+    let output = "";
+    const pageBreak = "\f"; // Form feed character for page break
+
+    for (let sysnum = 0; sysnum < row.length; sysnum++) {
+        // Add page break between systems (except before first system)
+        if (sysnum > 0) {
+            output += pageBreak + "\n\n";
+        }
+
+        // System header
+        output += "========================================\n";
+        output += "SYSTEM " + (sysnum + 1) + "\n";
+        output += "========================================\n\n";
+
+        // Location
+        output += "Location: Row " + row[sysnum] + ", Column " + column[sysnum] + "\n\n";
+
+        // Stars
+        if (numStars[sysnum] == 1) {
+            output += "Single Star System, ";
+        } else if (numStars[sysnum] == 2) {
+            output += "Dual Star System, ";
+        } else {
+            output += "Triple Star System, ";
+        }
+        output += starsDescription[sysnum] + "\n\n";
+
+        // Planets
+        output += "PLANETS:\n";
+        output += planetsDescription[sysnum] + "\n";
+
+        // UWP
+        output += "UWP: " + uwp[sysnum] + "\n";
+        output += "Trade Codes: " + systemTradeCodes[sysnum] + "\n\n";
+
+        // Starport
+        output += "Starport: Type " + starportTypes[starport[sysnum]] + "\n";
+        output += starportDetails[starport[sysnum]] + "\n\n";
+
+        // Size
+        output += "Size: " + tl[size[sysnum]] + " - " + sizeDetails[size[sysnum]] + "\n";
+        output += "Gravity: " + gravDetails[size[sysnum]] + "\n\n";
+
+        // Atmosphere
+        output += "Atmosphere: " + tl[atmos[sysnum]] + " - " + atmosphereDetails[atmos[sysnum]] + "\n";
+        output += "Pressure: " + atmospherePressureDetails[atmos[sysnum]] + "\n";
+        output += "Equipment Required: " + atmosphereEquipmentDetails[atmos[sysnum]] + "\n\n";
+
+        // Hydrology
+        output += "Hydrology: " + tl[hydro[sysnum]] + " - " + hydroDetails[hydro[sysnum]] + "\n";
+        output += "Coverage: " + hydroRangeDetails[hydro[sysnum]] + " of the surface\n\n";
+
+        // Population
+        if (pop[sysnum] == 0) {
+            output += "Population: " + tl[pop[sysnum]] + " - Unpopulated\n\n";
+        } else {
+            output += "Population: " + tl[pop[sysnum]] + " - " + populationDetail[pop[sysnum]-1] + " times " + factor[sysnum] + "\n\n";
+        }
+
+        // Government
+        output += "Government: " + tl[gov[sysnum]] + " - " + govDetails[gov[sysnum]] + "\n\n";
+
+        // Law Level
+        output += "Law Level: " + tl[law[sysnum]] + " - " + lawDetails[law[sysnum]] + "\n\n";
+
+        // Tech Level
+        output += "Tech Level: " + tl[tech[sysnum]] + " (" + techRange[tech[sysnum]] + ")\n";
+        output += techDetails[tech[sysnum]] + "\n\n";
+
+        // Trade Descriptions
+        output += "TRADE CLASSIFICATIONS:\n";
+        output += systemTradeDescriptions[sysnum];
+    }
+
+    // Create a blob and download link
+    const blob = new Blob([output], { type: 'text/plain' });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'sector_systems.txt';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    window.URL.revokeObjectURL(url);
 }
