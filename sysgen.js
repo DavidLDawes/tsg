@@ -110,7 +110,7 @@ function drawAllUWPs() {
             i21 = i2 + 1;
 
             ctx.fillStyle = "black";
-            ctx.fillText(" " + j + i2, 38 + i*120, 26 + j*68.8);
+            ctx.fillText(" " + j + i2, 38 + i*119, 26 + j*68.8);
             snum = matchRC(j, i2);
             if (snum > -1) {
                 // Set color based on filter match
@@ -119,7 +119,7 @@ function drawAllUWPs() {
                 } else {
                     ctx.fillStyle = "black";
                 }
-                ctx.fillText(uwp[snum], 14 + i*120, 50 + j*68.8);
+                ctx.fillText(uwp[snum], 14 + i*119, 50 + j*68.8);
             }
 
             // Now do the lower one
@@ -133,7 +133,7 @@ function drawAllUWPs() {
                 } else {
                     ctx.fillStyle = "black";
                 }
-                ctx.fillText(uwp[snum], 72 + i*120, 85 + j*68.8);
+                ctx.fillText(uwp[snum], 72 + i*119, 85 + j*68.8);
             }
         }
     }
