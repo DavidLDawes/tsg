@@ -19,11 +19,11 @@ hydroRangeDetails= Array("0% - 5%", "6% - 15%", "16% - 25%", "26% - 35%", "36% -
 
 populationDetail = Array(10, 100, 1000, " 10,000 ", " 100,000 ", " 1,000,000 ", " 10,000,000 ", " 100,000,000 ", " 1,000,000,000 ", " 10,000,000,000 ")
 
-govDetails = Array("None", "Company/Corporation ", "Participating Democracy ", "Self-Perpetuating Oligarchy ", "Representative Democracy ", "Feudal Technocracy ", "Captive Government ", "Balkanisation ", "Civil Service Bureaucracy ", "Impersonal Bureaucracy ", "Charismatic Dictator ", "Non-Charistmatic Dictator ", "Charismatic Oligarchy ", "Religious Dictatorship ")
+govDetails = Array("None", "Company/Corporation ", "Participating Democracy ", "Self-Perpetuating Oligarchy ", "Representative Democracy ", "Feudal Technocracy ", "Captive Government ", "Balkanization ", "Civil Service Bureaucracy ", "Impersonal Bureaucracy ", "Charismatic Dictator ", "Non-Charistmatic Dictator ", "Charismatic Oligarchy ", "Religious Dictatorship ")
 
 lawDetails = Array("No Restrictions", "No poison gas, explosives, undetectable weapons, or WMD", "No portable energy weapons (except ship-mounted weapons)", "No heavy weapons", "No light assault weapons or submachine guns", "No personal concealable weapons", "No firearms except shotguns and stunners; carrying weapons discouraged", "Only stunners allowed; carrying weapons discouraged", "Bladed weapons allowed, no firearms at all", "No weapons of any sort")
 
-techDetails = Array("No technology", "Roughly on a par with Bronze or Iron age technology.", "Renaissance technology.", "The germ of industrial revolution and steam power.", "The transition to industrial revolution is complete, bringing plastics, radio and other such inventions.", "Widespread electrification, telecommunications and internal combustion.", "Fission power and more advanced computing.", "A pre-stellar society can reach orbit reliably and has telecommunications satellites.", "At TL 8, it is possible to reach other worlds in the same system, although\nterraforming or full colonisation are not within reach.", "Gravity manipulation, which makes space travel vastly safer and faster.", "With the advent of Jump, nearby systems are opened up.", "The first true artificial intelligences become possible, as computers are\nable to model synaptic networks.", "Weather control revolutionises terraforming and agriculture.", "The battle dress appears on the battlefield in response to the new\nweapons.", "Fusion weapons become man-portable.", "Black globe generators suggest a new direction for\ndefensive technologies, while the development\nof synthetic anagathics means that the human lifespan is\nnow vastly increased. Higher Technology Levels exist\nand may appear in other settings or be discovered\nby pioneering scientists.", "Antimatter engines allow much longer jumps (J-8) with reasonable cargo, counter weapons and shields improve,\npowered/active armor increases durability, communications equivalent to\npersonal telepathy and good shielding", "All engines are compact, take fewer engineers, and perform extremely well,\nup to J-12 and M-16, P-18, human multiplicity physically and virtually is\ncommon, super-intelligent AI, low berths are 0 risk and cure\nalmost all cancers and diseases, forms are mutable.", "Speculative, J-16, M-20, P-24, extremely good armor, black globe with\ncomplete variability control and huge storage, capital ships can use black\nglobes to power outrageous arsenals.", "J-20, J-30 when not near massive objects, J-40 with obscure psionics\nintegrated into production and operation of engines and ships. Resurections,\nbackups, robo/physical/virtual multi-embodiement with merged\nconsciousness, meta-human groupings with others for even larger merged consciousnesses.\nImmunity to pretty much every form of death.")
+techDetails = Array("No technology", "Roughly on a par with Bronze or Iron age technology.", "Renaissance technology.", "The germ of industrial revolution and steam power.", "The transition to industrial revolution is complete, bringing plastics, radio and other such inventions.", "Widespread electrification, telecommunications and internal combustion.", "Fission power and more advanced computing.", "A pre-stellar society can reach orbit reliably and has telecommunications satellites.", "At TL 8, it is possible to reach other worlds in the same system, although\nterraforming or full colonisation are not within reach.", "Gravity manipulation, which makes space travel vastly safer and faster.", "With the advent of Jump, nearby systems are opened up.", "The first true artificial intelligences become possible, as computers are\nable to model synaptic networks.", "Weather control revolutionizes terraforming and agriculture.", "The battle dress appears on the battlefield in response to the new\nweapons.", "Fusion weapons become man-portable.", "Black globe generators suggest a new direction for\ndefensive technologies, while the development\nof synthetic anagathics means that the human lifespan is\nnow vastly increased. Higher Technology Levels exist\nand may appear in other settings or be discovered\nby pioneering scientists.", "Antimatter engines allow much longer jumps (J-8) with reasonable cargo, counter weapons and shields improve,\npowered/active armor increases durability, communications equivalent to\npersonal telepathy and good shielding", "All engines are compact, take fewer engineers, and perform extremely well,\nup to J-12 and M-16, P-18, human multiplicity physically and virtually is\ncommon, super-intelligent AI, low berths are 0 risk and cure\nalmost all cancers and diseases, forms are mutable.", "Speculative, J-16, M-20, P-24, extremely good armor, black globe with\ncomplete variability control and huge storage, capital ships can use black\nglobes to power outrageous arsenals.", "J-20, J-30 when not near massive objects, J-40 with obscure psionics\nintegrated into production and operation of engines and ships. Resurections,\nbackups, robo/physical/virtual multi-embodiement with merged\nconsciousness, meta-human groupings with others for even larger merged consciousnesses.\nImmunity to pretty much every form of death.")
 techRange = Array("Primitive", "Primitive", "Primitive", "Primitive", "Industrial", "Industrial", "Industrial", "Pre-Stellar", "Pre-Stellar", "Pre-Stellar", "Early Stellar", "Early Stellar", "Average Stellar", "Average Stellar", "Average Stellar", "High Stellar", "High Stellar", "Low Sector", "Average Sector", "High Sector")
 
 tradeCode = Array("Ag", "As", "De", "Fl", "Ga", "Hi", "Ht", "Ic", "In", "Lo", "Lt", "Na", "Ni", "Po", "Ri", "St", "Wa", "Va")
@@ -527,9 +527,9 @@ function getPlanet(sysnum) {
             if (zero2five() < 5) {
                 // All satelites are dwarfs
                 if (numSat == 1) {
-                    planetsDescription[sysnum] += planetTypes[3] + " Sattelite " + planetTypes[1] + "\n";
+                    planetsDescription[sysnum] += planetTypes[3] + " Satelite " + planetTypes[1] + "\n";
                 } else {
-                    planetsDescription[sysnum] += planetTypes[3] + " Sattelite " + planetTypes[1] + numSat + "x " + planetTypes[1] + "\n";
+                    planetsDescription[sysnum] += planetTypes[3] + " Satelite " + planetTypes[1] + numSat + "x " + planetTypes[1] + "\n";
                 }
             } else {
                 // One satellite is terrestrial
@@ -550,7 +550,7 @@ function getPlanet(sysnum) {
         if (zero2five() < 5) {
             // All satelites are dwarfs
             if (numSat == 1) {
-                planetsDescription[sysnum] += planetTypes[4] + " Sattelite " + planetTypes[1] + "\n";
+                planetsDescription[sysnum] += planetTypes[4] + " Satelite " + planetTypes[1] + "\n";
                 num_GasGiants[sysnum]++
             } else {
                 planetsDescription[sysnum] += planetTypes[4] + " Satellite " + numSat + "x " + planetTypes[1] + "\n";
@@ -565,7 +565,7 @@ function getPlanet(sysnum) {
                 planetsDescription[sysnum] += planetTypes[4] + " Satellites " + planetTypes[2] + " & " + planetTypes[1] + "\n";
                 num_GasGiants[sysnum]++
             } else {
-                planetsDescription[sysnum] += planetTypes[4] + " Sattelites " + planetTypes[2] + " & " + numSat + "x " + planetTypes[1] + "\n";
+                planetsDescription[sysnum] += planetTypes[4] + " Satelites " + planetTypes[2] + " & " + numSat + "x " + planetTypes[1] + "\n";
                 num_GasGiants[sysnum]++
             }
         }
@@ -1011,76 +1011,96 @@ function saveToFile() {
     // Save as a text file
     let output = "";
     const pageBreak = "\f"; // Form feed character for page break
+    let isFirstSystem = true;
 
-    for (let sysnum = 0; sysnum < row.length; sysnum++) {
-        // Add page break between systems (except before first system)
-        if (sysnum > 0) {
+    // Loop through all 16 subsectors
+    for (let subsector = 0; subsector < 16; subsector++) {
+        const data = subsectorData[subsector];
+
+        // Skip empty subsectors
+        if (data.row.length === 0) {
+            continue;
+        }
+
+        // Subsector header
+        if (!isFirstSystem) {
             output += pageBreak + "\n\n";
         }
+        output += "########################################\n";
+        output += "SUBSECTOR " + (subsector + 1) + " of 16\n";
+        output += "########################################\n\n";
 
-        // System header
-        output += "========================================\n";
-        output += "SYSTEM " + (sysnum + 1) + "\n";
-        output += "========================================\n\n";
+        for (let sysnum = 0; sysnum < data.row.length; sysnum++) {
+            // Add page break between systems
+            if (!isFirstSystem) {
+                output += pageBreak + "\n\n";
+            }
+            isFirstSystem = false;
 
-        // Location
-        output += "Location: Row " + row[sysnum] + ", Column " + column[sysnum] + "\n\n";
+            // System header
+            output += "========================================\n";
+            output += "SUBSECTOR " + (subsector + 1) + " - SYSTEM " + (sysnum + 1) + "\n";
+            output += "========================================\n\n";
 
-        // Stars
-        if (numStars[sysnum] == 1) {
-            output += "Single Star System, ";
-        } else if (numStars[sysnum] == 2) {
-            output += "Dual Star System, ";
-        } else {
-            output += "Triple Star System, ";
+            // Location
+            output += "Location: Row " + data.row[sysnum] + ", Column " + data.column[sysnum] + "\n\n";
+
+            // Stars
+            if (data.numStars[sysnum] == 1) {
+                output += "Single Star System, ";
+            } else if (data.numStars[sysnum] == 2) {
+                output += "Dual Star System, ";
+            } else {
+                output += "Triple Star System, ";
+            }
+            output += data.starsDescription[sysnum] + "\n\n";
+
+            // Planets
+            output += "PLANETS:\n";
+            output += data.planetsDescription[sysnum] + "\n";
+
+            // UWP
+            output += "UWP: " + data.uwp[sysnum] + "\n";
+            output += "Trade Codes: " + data.systemTradeCodes[sysnum] + "\n\n";
+
+            // Starport
+            output += "Starport: Type " + starportTypes[data.starport[sysnum]] + "\n";
+            output += starportDetails[data.starport[sysnum]] + "\n\n";
+
+            // Size
+            output += "Size: " + tl[data.size[sysnum]] + " - " + sizeDetails[data.size[sysnum]] + "\n";
+            output += "Gravity: " + gravDetails[data.size[sysnum]] + "\n\n";
+
+            // Atmosphere
+            output += "Atmosphere: " + tl[data.atmos[sysnum]] + " - " + atmosphereDetails[data.atmos[sysnum]] + "\n";
+            output += "Pressure: " + atmospherePressureDetails[data.atmos[sysnum]] + "\n";
+            output += "Equipment Required: " + atmosphereEquipmentDetails[data.atmos[sysnum]] + "\n\n";
+
+            // Hydrology
+            output += "Hydrology: " + tl[data.hydro[sysnum]] + " - " + hydroDetails[data.hydro[sysnum]] + "\n";
+            output += "Coverage: " + hydroRangeDetails[data.hydro[sysnum]] + " of the surface\n\n";
+
+            // Population
+            if (data.pop[sysnum] == 0) {
+                output += "Population: " + tl[data.pop[sysnum]] + " - Unpopulated\n\n";
+            } else {
+                output += "Population: " + tl[data.pop[sysnum]] + " - " + populationDetail[data.pop[sysnum]-1] + " times " + data.factor[sysnum] + "\n\n";
+            }
+
+            // Government
+            output += "Government: " + tl[data.gov[sysnum]] + " - " + govDetails[data.gov[sysnum]] + "\n\n";
+
+            // Law Level
+            output += "Law Level: " + tl[data.law[sysnum]] + " - " + lawDetails[data.law[sysnum]] + "\n\n";
+
+            // Tech Level
+            output += "Tech Level: " + tl[data.tech[sysnum]] + " (" + techRange[data.tech[sysnum]] + ")\n";
+            output += techDetails[data.tech[sysnum]] + "\n\n";
+
+            // Trade Descriptions
+            output += "TRADE CLASSIFICATIONS:\n";
+            output += data.systemTradeDescriptions[sysnum];
         }
-        output += starsDescription[sysnum] + "\n\n";
-
-        // Planets
-        output += "PLANETS:\n";
-        output += planetsDescription[sysnum] + "\n";
-
-        // UWP
-        output += "UWP: " + uwp[sysnum] + "\n";
-        output += "Trade Codes: " + systemTradeCodes[sysnum] + "\n\n";
-
-        // Starport
-        output += "Starport: Type " + starportTypes[starport[sysnum]] + "\n";
-        output += starportDetails[starport[sysnum]] + "\n\n";
-
-        // Size
-        output += "Size: " + tl[size[sysnum]] + " - " + sizeDetails[size[sysnum]] + "\n";
-        output += "Gravity: " + gravDetails[size[sysnum]] + "\n\n";
-
-        // Atmosphere
-        output += "Atmosphere: " + tl[atmos[sysnum]] + " - " + atmosphereDetails[atmos[sysnum]] + "\n";
-        output += "Pressure: " + atmospherePressureDetails[atmos[sysnum]] + "\n";
-        output += "Equipment Required: " + atmosphereEquipmentDetails[atmos[sysnum]] + "\n\n";
-
-        // Hydrology
-        output += "Hydrology: " + tl[hydro[sysnum]] + " - " + hydroDetails[hydro[sysnum]] + "\n";
-        output += "Coverage: " + hydroRangeDetails[hydro[sysnum]] + " of the surface\n\n";
-
-        // Population
-        if (pop[sysnum] == 0) {
-            output += "Population: " + tl[pop[sysnum]] + " - Unpopulated\n\n";
-        } else {
-            output += "Population: " + tl[pop[sysnum]] + " - " + populationDetail[pop[sysnum]-1] + " times " + factor[sysnum] + "\n\n";
-        }
-
-        // Government
-        output += "Government: " + tl[gov[sysnum]] + " - " + govDetails[gov[sysnum]] + "\n\n";
-
-        // Law Level
-        output += "Law Level: " + tl[law[sysnum]] + " - " + lawDetails[law[sysnum]] + "\n\n";
-
-        // Tech Level
-        output += "Tech Level: " + tl[tech[sysnum]] + " (" + techRange[tech[sysnum]] + ")\n";
-        output += techDetails[tech[sysnum]] + "\n\n";
-
-        // Trade Descriptions
-        output += "TRADE CLASSIFICATIONS:\n";
-        output += systemTradeDescriptions[sysnum];
     }
 
     // Create a blob and download link
