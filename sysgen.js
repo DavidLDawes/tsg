@@ -251,8 +251,10 @@ function drawAllUWPs() {
             ctx.fillText(" " + j + i2, 38 + i*119, 26 + j*68.8);
             snum = matchRC(j, i2);
             if (snum > -1) {
-                // Set color based on filter match
-                if (filter && systemTradeCodes[snum].includes(filter)) {
+                // Set color based on current system (green), filter match (red), or default (black)
+                if (snum === currentSystem) {
+                    ctx.fillStyle = "green";
+                } else if (filter && systemTradeCodes[snum].includes(filter)) {
                     ctx.fillStyle = "red";
                 } else {
                     ctx.fillStyle = "black";
@@ -265,8 +267,10 @@ function drawAllUWPs() {
             ctx.fillText("  " + j + i21, 94 + i*120, 59.7 + j*68.8);
             snum = matchRC(j, i21);
             if (snum > -1) {
-                // Set color based on filter match
-                if (filter && systemTradeCodes[snum].includes(filter)) {
+                // Set color based on current system (green), filter match (red), or default (black)
+                if (snum === currentSystem) {
+                    ctx.fillStyle = "green";
+                } else if (filter && systemTradeCodes[snum].includes(filter)) {
                     ctx.fillStyle = "red";
                 } else {
                     ctx.fillStyle = "black";
@@ -1195,4 +1199,12 @@ function saveToFile() {
     a.click();
     document.body.removeChild(a);
     window.URL.revokeObjectURL(url);
+}
+
+// Auto-generate sector on page load
+window.onload = function() {
+    generateCanvas(40);
+    setSystem(0);
+    drawSubsectorGrid();
+    updateCanvasColors();
 }
