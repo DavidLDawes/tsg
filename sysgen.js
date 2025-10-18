@@ -560,25 +560,25 @@ function getPlanet(sysnum) {
     switch (true) {
     case z2d < 1:
         if (zero2five() > 3) {
-            planetsDescription[sysnum] += planetTypes[0] + " Mostly Dwarf planetoids, one " + planetTypes[1] + "\n";
+            planetsDescription[sysnum] += planetTypes[0] + " Mostly Dwarf planetoids, one " + planetTypes[1] + ";";
             num_AsteroidBelts[sysnum]++
         } else {
-            planetsDescription[sysnum] += planetTypes[0] + "\n";
+            planetsDescription[sysnum] += planetTypes[0] + ";";
             num_AsteroidBelts[sysnum]++
         }
         break;
     case z2d == 1:
         if (zero2five() > 4) {
-            planetsDescription[sysnum] += planetTypes[1], " Satellite " + planetTypes[1] + "\n";
+            planetsDescription[sysnum] += planetTypes[1], " Satellite " + planetTypes[1] + ";";
         } else {
-            planetsDescription[sysnum] += planetTypes[1] + "\n";;
+            planetsDescription[sysnum] += planetTypes[1] + ";";;
         }
         break;
     case z2d == 2:
         if (zero2five() > 3) {
-            planetsDescription[sysnum] += planetTypes[2] + " Satellite " + planetTypes[1] + "\n";
+            planetsDescription[sysnum] += planetTypes[2] + " Satellite " + planetTypes[1] + ";";
         } else {
-            planetsDescription[sysnum] += planetTypes[2] + "\n";
+            planetsDescription[sysnum] += planetTypes[2] + ";";
         }
         break;
     case z2d == 3:
@@ -591,22 +591,22 @@ function getPlanet(sysnum) {
             if (zero2five() < 5) {
                 // All satelites are dwarfs
                 if (numSat == 1) {
-                    planetsDescription[sysnum] += planetTypes[3] + " Satelite " + planetTypes[1] + "\n";
+                    planetsDescription[sysnum] += planetTypes[3] + " Satelite " + planetTypes[1] + ";";
                 } else {
-                    planetsDescription[sysnum] += planetTypes[3] + " Satelite " + planetTypes[1] + numSat + "x " + planetTypes[1] + "\n";
+                    planetsDescription[sysnum] += planetTypes[3] + " Satelite " + planetTypes[1] + numSat + "x " + planetTypes[1] + ";";
                 }
             } else {
                 // One satellite is terrestrial
                 if (numSat == 1) {
-                    planetsDescription[sysnum] += planetTypes[3] + " Satellite " + planetTypes[1]  + "\n";
+                    planetsDescription[sysnum] += planetTypes[3] + " Satellite " + planetTypes[1]  + ";";
                 } else if (numSat == 2) {
-                    planetsDescription[sysnum] += planetTypes[3] + " Satellite " + planetTypes[2] + " & " + planetTypes[1] + "\n";
+                    planetsDescription[sysnum] += planetTypes[3] + " Satellite " + planetTypes[2] + " & " + planetTypes[1] + ";";
                 } else {
-                    planetsDescription[sysnum] += planetTypes[3] + " Satellite " + planetTypes[2] + numSat + "x " + planetTypes[1] + "\n";
+                    planetsDescription[sysnum] += planetTypes[3] + " Satellite " + planetTypes[2] + numSat + "x " + planetTypes[1] + ";";
                 }
             }
         } else {
-            planetsDescription[sysnum] += planetTypes[3] + "\n";
+            planetsDescription[sysnum] += planetTypes[3] + ";";
         }
         break;
     case z2d < 7:
@@ -614,31 +614,31 @@ function getPlanet(sysnum) {
         if (zero2five() < 5) {
             // All satelites are dwarfs
             if (numSat == 1) {
-                planetsDescription[sysnum] += planetTypes[4] + " Satelite " + planetTypes[1] + "\n";
+                planetsDescription[sysnum] += planetTypes[4] + " Satelite " + planetTypes[1] + ";";
                 num_GasGiants[sysnum]++
             } else {
-                planetsDescription[sysnum] += planetTypes[4] + " Satellite " + numSat + "x " + planetTypes[1] + "\n";
+                planetsDescription[sysnum] += planetTypes[4] + " Satellite " + numSat + "x " + planetTypes[1] + ";";
                 num_GasGiants[sysnum]++
             }
         } else {
             // One satellite is terrestrial
             if (numSat == 1) {
-                planetsDescription[sysnum] += planetTypes[4] + " Satellite " + planetTypes[2] + "\n";
+                planetsDescription[sysnum] += planetTypes[4] + " Satellite " + planetTypes[2] + ";";
                 num_GasGiants[sysnum]++
             } else if (numSat == 2) {
-                planetsDescription[sysnum] += planetTypes[4] + " Satellites " + planetTypes[2] + " & " + planetTypes[1] + "\n";
+                planetsDescription[sysnum] += planetTypes[4] + " Satellites " + planetTypes[2] + " & " + planetTypes[1] + ";";
                 num_GasGiants[sysnum]++
             } else {
-                planetsDescription[sysnum] += planetTypes[4] + " Satelites " + planetTypes[2] + " & " + numSat + "x " + planetTypes[1] + "\n";
+                planetsDescription[sysnum] += planetTypes[4] + " Satelites " + planetTypes[2] + " & " + numSat + "x " + planetTypes[1] + ";";
                 num_GasGiants[sysnum]++
             }
         }
         break;
     default:
         if (zero2five() > 3) {
-            planetsDescription[sysnum] += planetTypes[2], " Satellite " + planetTypes[1] + "\n";
+            planetsDescription[sysnum] += planetTypes[2], " Satellite " + planetTypes[1] + ";";
         } else {
-            planetsDescription[sysnum] += planetTypes[2] + "\n";
+            planetsDescription[sysnum] += planetTypes[2] + ";";
         }
         break;
     }
