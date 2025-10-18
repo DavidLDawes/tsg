@@ -26,8 +26,8 @@ lawDetails = Array("No Restrictions", "No poison gas, explosives, undetectable w
 techDetails = Array("No technology", "Roughly on a par with Bronze or Iron age technology.", "Renaissance technology.", "The germ of industrial revolution and steam power.", "The transition to industrial revolution is complete, bringing plastics, radio and other such inventions.", "Widespread electrification, telecommunications and internal combustion.", "Fission power and more advanced computing.", "A pre-stellar society can reach orbit reliably and has telecommunications satellites.", "At TL 8, it is possible to reach other worlds in the same system, although\nterraforming or full colonisation are not within reach.", "Gravity manipulation, which makes space travel vastly safer and faster.", "With the advent of Jump, nearby systems are opened up.", "The first true artificial intelligences become possible, as computers are\nable to model synaptic networks.", "Weather control revolutionizes terraforming and agriculture.", "The battle dress appears on the battlefield in response to the new\nweapons.", "Fusion weapons become man-portable.", "Black globe generators suggest a new direction for\ndefensive technologies, while the development\nof synthetic anagathics means that the human lifespan is\nnow vastly increased. Higher Technology Levels exist\nand may appear in other settings or be discovered\nby pioneering scientists.", "Antimatter engines allow much longer jumps (J-8) with reasonable cargo, counter weapons and shields improve,\npowered/active armor increases durability, communications equivalent to\npersonal telepathy and good shielding", "All engines are compact, take fewer engineers, and perform extremely well,\nup to J-12 and M-16, P-18, human multiplicity physically and virtually is\ncommon, super-intelligent AI, low berths are 0 risk and cure\nalmost all cancers and diseases, forms are mutable.", "Speculative, J-16, M-20, P-24, extremely good armor, black globe with\ncomplete variability control and huge storage, capital ships can use black\nglobes to power outrageous arsenals.", "J-20, J-30 when not near massive objects, J-40 with obscure psionics\nintegrated into production and operation of engines and ships. Resurections,\nbackups, robo/physical/virtual multi-embodiement with merged\nconsciousness, meta-human groupings with others for even larger merged consciousnesses.\nImmunity to pretty much every form of death.")
 techRange = Array("Primitive", "Primitive", "Primitive", "Primitive", "Industrial", "Industrial", "Industrial", "Pre-Stellar", "Pre-Stellar", "Pre-Stellar", "Early Stellar", "Early Stellar", "Average Stellar", "Average Stellar", "Average Stellar", "High Stellar", "High Stellar", "Low Sector", "Average Sector", "High Sector")
 
-tradeCode = Array("Ag", "As", "De", "Fl", "Ga", "Hi", "Ht", "Ic", "In", "Lo", "Lt", "Na", "Ni", "Po", "Ri", "St", "Wa", "Va")
-tradeDescription = Array("Agricultural", "Asteroid Belt", "Desert", "Fluid Oceans", "Garden", "High Population", "High Technology", "Ice-Capped", "Industrial", "Low Population", "Low Technology", "Non-Agricultural", "Non-Industrial", "Poor", "Rich", "Sterile", "Water World", "Vacuum")
+tradeCode = Array("Ag", "As", "De", "Fl", "Ga", "Hi", "Ht", "Ic", "In", "Lo", "Lt", "Na", "Ni", "Po", "Ri", "St", "Wa", "Va", "Gg", "Wr")
+tradeDescription = Array("Agricultural", "Asteroid Belt", "Desert", "Fluid Oceans", "Garden", "High Population", "High Technology", "Ice-Capped", "Industrial", "Low Population", "Low Technology", "Non-Agricultural", "Non-Industrial", "Poor", "Rich", "Sterile", "Water World", "Vacuum", "Gas Giant", "Wilderness Refueling")
 
 // Subsector management - we have 16 subsectors (4x4 grid)
 currentSubsector = 0;
@@ -504,6 +504,7 @@ function setStarsTypes(sysnum) {
 // that finshes the stars, next are planets and asteroid belts
 function getPlanets(sysnum) {
     num_AsteroidBelts[sysnum] = 0;
+    num_GasGiants[sysnum] = 0;
     planetsDescription[sysnum] = ""
     Epistellar_Planets = 0;
     Inner_Planets = 0;
@@ -964,6 +965,16 @@ function getCodes(sysnum) {
         // Vacuum
         systemTradeCodes[sysnum] += tradeCode[17] + " ";
         systemTradeDescriptions[sysnum] += tradeCode[17] + " " + tradeDescription[17] + "\n";
+    }
+    if (num_GasGiants[sysnum] > 0) {
+        // Gas Giant(s)
+        systemTradeCodes[sysnum] += tradeCode[18] + " ";
+        systemTradeDescriptions[sysnum] += tradeCode[18] + " " + tradeDescription[18] + "\n";
+    }
+    if (num_GasGiants[sysnum] > 0 || hydro[sysnum] > 3) {
+        // Wilderness Refueling)
+        systemTradeCodes[sysnum] += tradeCode[19] + " ";
+        systemTradeDescriptions[sysnum] += tradeCode[19] + " " + tradeDescription[19] + "\n";
     }
 }
 
