@@ -20,8 +20,10 @@ div.canvasContainer div {
 <h1>Sector Generator</h1>
 <div class="canvasContainer">
     <div>
+        <p>Four by four grid of subsectors go into a sector. The active subsector is highlighted, and you can click on any subsector to swtitch to it.</p>
         <canvas id="SubsectorGrid" width="400" height="400"></canvas>
         <br>
+        <p>Each subsector is an eight column wide by ten row high area of hexagons. The systems with something in them (half or less of all systems mostly) will display their UWP. Details for one system are shown to the right. You can filter for various trade codes such as Hi Tech, Hi Pop, Agricultural, etc., see the drop down on the top right.</p>
         <canvas id="Sector" width="504" height="734"></canvas>
     </div>
     <div>
@@ -56,7 +58,7 @@ div.canvasContainer div {
             <option value="Va">Va - Vacuum</option>
         </select>
         <p id="Stars"></p>
-        <p id="Planets">Planets</p>
+        <p id="Planets"></textarea>
         <p id="Location"></p>
         <p id="UWP">UWP</p>
         <p id="Port">Starport</p>

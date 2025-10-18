@@ -1072,6 +1072,13 @@ function variableOdds (odds) {
 
 // Save all system details to a text file and canvas image
 function saveToFile() {
+    // Prompt for filename
+    const filename = prompt("Enter filename for saved sector data:", "sector_systems");
+    if (!filename) {
+        // User cancelled
+        return;
+    }
+
     // Save as a text file
     let output = "";
     const pageBreak = "\f"; // Form feed character for page break
@@ -1172,7 +1179,7 @@ function saveToFile() {
     const url = window.URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = 'sector_systems.txt';
+    a.download = filename + '.txt';
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
