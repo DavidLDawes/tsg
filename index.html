@@ -26,14 +26,30 @@
             border-radius: 5px;
             font-size: 18px;
             transition: background-color 0.3s;
+            margin: 10px;
         }
         a:hover {
             background-color: #0056b3;
+        }
+        a.ship-design {
+            background-color: #28a745;
+        }
+        a.ship-design:hover {
+            background-color: #1e7e34;
         }
         .description {
             margin-top: 20px;
             color: #666;
             line-height: 1.6;
+        }
+        .section {
+            margin-top: 50px;
+            padding-top: 30px;
+            border-top: 2px solid #ddd;
+        }
+        h2 {
+            color: #333;
+            font-weight: bold;
         }
     </style>
 </head>
@@ -54,6 +70,18 @@
             <li>Starports, atmospheres, populations, governments</li>
             <li>Trade classifications</li>
         </ul>
+    </div>
+
+    <div class="section">
+        <h2>Traveller Ship Design</h2>
+
+        <div class="link-container">
+            <a href="ShipDesign/index.html" class="ship-design">Design Ships</a>
+        </div>
+
+        <div class="description">
+            <p>Click the above link to design Traveller SRD compatible ships.</p>
+        </div>
     </div>
 </body>
 </html>
