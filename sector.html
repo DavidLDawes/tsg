@@ -7,73 +7,71 @@
     <script src="sysgen.js"></script>
 </head>
 <style>
-div.canvasContainer {
-  width:60%;
-  overflow:auto;
-}
 div.canvasContainer div {
-  width:50%;
+  width:60%;
   float:left;
+}
+div.buttonsNSector div {
+  width:60%;
+  float:right;
 }
 </style>
 <body>
 <h1>Sector Generator</h1>
 <div class="canvasContainer">
-    <div>
         <p>Four by four grid of subsectors go into a sector. The active subsector is highlighted, and you can click on any subsector to swtitch to it.</p>
         <canvas id="SubsectorGrid" width="400" height="400"></canvas>
         <br>
         <p>Each subsector is an eight column wide by ten row high area of hexagons. The systems with something in them (half or less of all systems mostly) will display their UWP. Details for one system are shown to the right. You can filter for various trade codes such as Hi Tech, Hi Pop, Agricultural, etc., see the drop down on the top right.</p>
         <canvas id="Sector" width="504" height="734"></canvas>
-    </div>
-    <div>
-        <button onclick="generateCanvas(50);setSystem(0);">Generate, 50% chance of systems</button>
-        <button onclick="generateCanvas(40);setSystem(0);">Generate, 40% chance of systems</button>
-        <br><br>
-        <button onclick="previousSubsector();">Previous Subsector</button>
-        <button onclick="nextSubsector();">Next Subsector</button>
-        <button onclick="saveToFile();">Save to File</button>
-        <p id="SubsectorNum">Subsector 1 of 16</p>
-        <button onclick="previousSystem();">Previous System</button>
-        <button onclick="nextSystem();">Next System</button>
-        <select id="filterSelect" onchange="updateCanvasColors();">
-            <option value="">All Systems</option>
-            <option value="Ag">Ag - Agricultural</option>
-            <option value="As">As - Asteroid Belt</option>
-            <option value="De">De - Desert</option>
-            <option value="Fl">Fl - Fluid Oceans</option>
-            <option value="Ga">Ga - Garden</option>
-            <option value="Hi">Hi - High Population</option>
-            <option value="Ht">Ht - High Technology</option>
-            <option value="Ic">Ic - Ice-Capped</option>
-            <option value="In">In - Industrial</option>
-            <option value="Lo">Lo - Low Population</option>
-            <option value="Lt">Lt - Low Technology</option>
-            <option value="Na">Na - Non-Agricultural</option>
-            <option value="Ni">Ni - Non-Industrial</option>
-            <option value="Po">Po - Poor</option>
-            <option value="Ri">Ri - Rich</option>
-            <option value="St">St - Sterile</option>
-            <option value="Wa">Wa - Water World</option>
-            <option value="Va">Va - Vacuum</option>
-            <option value="Gg">Gg - Gas Giant</option>
-            <option value="Wr">Wr - Wilderness Refueling</option>
-        </select>
-        <p id="Stars"></p>
-        <p id="Planets"></textarea>
-        <p id="Location"></p>
-        <p id="UWP">UWP</p>
-        <p id="Port">Starport</p>
-        <p id="Size">Size</p>
-        <p id="Atmos">Atmosphere</p>
-        <p id="Hydro">Hydrology</p>
-        <p id="Pop">Population</p>
-        <p id="Gov">Government Type</p>
-        <p id="Law">Law Level</p>
-        <p id="Tech">Tech Level</p>
-        <p id="Codes">Trade Codes</p>
+</div>
+<div class="¨buttonsNSector">
+    <button onclick="generateCanvas(50);setSystem(0);">Generate, 50% chance of systems</button>
+    <button onclick="generateCanvas(40);setSystem(0);">Generate, 40% chance of systems</button>
+    <br><br>
+    <button onclick="previousSubsector();">Previous Subsector</button>
+    <button onclick="nextSubsector();">Next Subsector</button>
+    <button onclick="saveToFile();">Save to File</button>
+    <p id="SubsectorNum">Subsector 1 of 16</p>
+    <button onclick="previousSystem();">Previous System</button>
+    <button onclick="nextSystem();">Next System</button>
+    <select id="filterSelect" onchange="updateCanvasColors();">
+        <option value="">All Systems</option>
+        <option value="Ag">Ag - Agricultural</option>
+        <option value="As">As - Asteroid Belt</option>
+        <option value="De">De - Desert</option>
+        <option value="Fl">Fl - Fluid Oceans</option>
+        <option value="Ga">Ga - Garden</option>
+        <option value="Hi">Hi - High Population</option>
+        <option value="Ht">Ht - High Technology</option>
+        <option value="Ic">Ic - Ice-Capped</option>
+        <option value="In">In - Industrial</option>
+        <option value="Lo">Lo - Low Population</option>
+        <option value="Lt">Lt - Low Technology</option>
+        <option value="Na">Na - Non-Agricultural</option>
+        <option value="Ni">Ni - Non-Industrial</option>
+        <option value="Po">Po - Poor</option>
+        <option value="Ri">Ri - Rich</option>
+        <option value="St">St - Sterile</option>
+        <option value="Wa">Wa - Water World</option>
+        <option value="Va">Va - Vacuum</option>
+        <option value="Gg">Gg - Gas Giant</option>
+        <option value="Wr">Wr - Wilderness Refueling</option>
+    </select>
+    <p id="Stars"></p>
+    <p id="Planets"></textarea>
+    <p id="Location"></p>
+    <p id="UWP">UWP</p>
+    <p id="Port">Starport</p>
+    <p id="Size">Size</p>
+    <p id="Atmos">Atmosphere</p>
+    <p id="Hydro">Hydrology</p>
+    <p id="Pop">Population</p>
+    <p id="Gov">Government Type</p>
+    <p id="Law">Law Level</p>
+    <p id="Tech">Tech Level</p>
+    <p id="Codes">Trade Codes</p>
 
-    </div>
 </div>
 </body>
 </html>
