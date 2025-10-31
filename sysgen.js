@@ -920,7 +920,7 @@ function getCodes(sysnum) {
         systemTradeCodes[sysnum] += tradeCode[7] + " ";
         systemTradeDescriptions[sysnum] += tradeCode[7] + " " + tradeDescription[7] + "\n";
     }
-    if (pop[sysnum] > 8 && tech[sysnum] > 6) {
+    if ((pop[sysnum] > 8 && tech[sysnum] > 6) || (pop[sysnum] > 7 && tech[sysnum] > 9) || (pop[sysnum] > 6 && tech[sysnum] > 12)) {
         // Industrial
         systemTradeCodes[sysnum] += tradeCode[8] + " ";
         systemTradeDescriptions[sysnum] += tradeCode[8] + " " + tradeDescription[8] + "\n";
