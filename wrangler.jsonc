@@ -2,6 +2,10 @@
   "name": "tsg-root",
   "compatibility_date": "2026-07-29",
   "assets": {
-    "directory": "."
-  }
+    "directory": ".",
+    "html_handling": "none"
+  },
+  "routes": [
+    { "pattern": "srd-tools.com/*", "zone_name": "srd-tools.com" }
+  ]
 }
