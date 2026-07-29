@@ -3,7 +3,14 @@
     "allow": [
       "Bash(mkdir:*)",
       "Bash(git clone:*)",
-      "Bash(npm run build)"
+      "Bash(npm run build)",
+      "Bash(npm --version)",
+      "Bash(npx wrangler *)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" https://tsg-root.virtualsoundnw.workers.dev/)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" https://tsg-root.virtualsoundnw.workers.dev/.wrangler/cache/wrangler-account.json)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" https://tsg-root.virtualsoundnw.workers.dev/.wrangler/tmp/deploy-930eL6/no-op-worker.js)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" https://tsg-root.virtualsoundnw.workers.dev/ShipDesign/index.html)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" https://tsg-root.virtualsoundnw.workers.dev/sysgen.js)"
     ],
     "deny": [],
     "ask": []
