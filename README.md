@@ -10,12 +10,13 @@ It hosts:
   - **[Capital Ship Designer](https://srd-tools.com/CapitalShipDesign/)** — `/CapitalShipDesign/*`, from [DavidLDawes/aid](https://github.com/DavidLDawes/aid) (`capital` branch)
   - **[Megastructure Designer](https://srd-tools.com/MegaDesign/)** — `/MegaDesign/*`, from [DavidLDawes/aid](https://github.com/DavidLDawes/aid) (`megastructure` branch)
   - **[Starship Architect](https://srd-tools.com/StarshipArchitect/)** — `/StarshipArchitect/*`, from [DavidLDawes/StarshipArchitetect](https://github.com/DavidLDawes/StarshipArchitetect)
+  - **[Traveller Map](https://srd-tools.com/TravellerMap/)** — `/TravellerMap/*`, from [DavidLDawes/travellermap](https://github.com/DavidLDawes/travellermap) (a fork of [inexorabletash/travellermap](https://github.com/inexorabletash/travellermap)). Unlike the others this is an ASP.NET server app (deployed via its Docker image), so it needs a host reachable from a `srd-tools.com/TravellerMap/*` route — it is not static assets.
 
 ## Architecture
 
-All six routes share the single `srd-tools.com` zone on Cloudflare but are deployed as **separate Cloudflare Workers**, each with its own repo and its own [Workers Routes](https://developers.cloudflare.com/workers/configuration/routing/routes/) path pattern (`srd-tools.com/<prefix>` and `srd-tools.com/<prefix>/*`). This repo's Worker is `tsg-root`, mounted at `srd-tools.com/*` as the catch-all/root.
+All seven routes share the single `srd-tools.com` zone on Cloudflare but are deployed as **separate Cloudflare Workers**, each with its own repo and its own [Workers Routes](https://developers.cloudflare.com/workers/configuration/routing/routes/) path pattern (`srd-tools.com/<prefix>` and `srd-tools.com/<prefix>/*`). This repo's Worker is `tsg-root`, mounted at `srd-tools.com/*` as the catch-all/root.
 
-This repo serves its files as static [Workers Assets](https://developers.cloudflare.com/workers/static-assets/) — see `wrangler.jsonc`. `.assetsignore` excludes repo/tooling files (`.git`, `.github`, `node_modules`, etc.) and the other five apps' directories, which are deployed from their own repos, not from here.
+This repo serves its files as static [Workers Assets](https://developers.cloudflare.com/workers/static-assets/) — see `wrangler.jsonc`. `.assetsignore` excludes repo/tooling files (`.git`, `.github`, `node_modules`, etc.) and the other six apps' directories, which are deployed from their own repos, not from here.
 
 ## Deployment
 
