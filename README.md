@@ -4,6 +4,7 @@ This repo is the **root site of [srd-tools.com](https://srd-tools.com)** — a T
 
 It hosts:
 - **The Sector Generator** (`sector.html` / `sysgen.js`) — generates randomized star systems and sector maps, served directly from this repo at `/`.
+- **The globe of the Earth** (`countries/`) — the countries viewer from [Globetrotter](https://traveller3d.srd-tools.com) (Go compiled to WebAssembly), served directly from this repo at `/countries/`. `countries/` is a build output, copied from a Globetrotter checkout by `update-countries.ps1`: rerun it and commit the result to update the viewer, rather than editing the files there.
 - The homepage (`index.html`) linking out to the other Traveller design tools, each deployed independently under its own path:
   - **[Small Craft Designer](https://srd-tools.com/SmallCraftDesign/)** — `/SmallCraftDesign/*`, from [DavidLDawes/vehicles](https://github.com/DavidLDawes/vehicles)
   - **[Ship Designer](https://srd-tools.com/ShipDesign/)** — `/ShipDesign/*`, from [DavidLDawes/aid](https://github.com/DavidLDawes/aid) (`main` branch)
@@ -34,6 +35,10 @@ npx html-minifier --collapse-whitespace --remove-comments index.html -o mini/ind
 
 # Minify JavaScript
 terser -c toplevel --mangle -- sysgen.js > sysgen-terser.js
+
+# Update the countries viewer in countries/ from a Globetrotter checkout
+# (default ..\..\Globetrotter; needs Go)
+./update-countries.ps1 -Globetrotter <path>
 
 # Deploy manually (normally handled by CI on merge to main)
 npx wrangler deploy
