@@ -11,6 +11,7 @@ LICENSE
 wrangler.jsonc
 .assetsignore
 .gitignore
+update-countries.ps1
 
 # Deployed independently from their own repos/Workers - not served from tsg-root
 SmallCraftDesign
