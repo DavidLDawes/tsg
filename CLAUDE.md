@@ -6,7 +6,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 This is a Traveller SRD (Science Fiction Role-Playing Game System Reference Document) World Generator that creates randomized star systems and sector maps. It's a browser-based application that generates planetary systems with detailed characteristics including stars, planets, starports, atmospheres, populations, governments, and trade classifications.
 
-This repo is also the **root site of srd-tools.com** — `index.html` is the homepage linking to five other Traveller design tools (Small Craft, Ship, Capital Ship, Megastructure, and Starship Architect designers), each deployed as an independent Cloudflare Worker from its own repo under its own path (`/SmallCraftDesign/*`, `/ShipDesign/*`, etc.). This repo's own Worker (`tsg-root`) serves everything else — the homepage, the Sector Generator, and static assets — at the root of the zone. See `README.md` for the full app list and deployment details.
+This repo is also the **root site of srd-tools.com** — `index.html` is the homepage linking to five other Traveller design tools (Small Craft, Ship, Capital Ship, Megastructure, and Starship Architect designers), each deployed as an independent Cloudflare Worker from its own repo under its own path (`/SmallCraftDesign/*`, `/ShipDesign/*`, etc.). This repo's own Worker (`tsg-root`) serves everything else — the homepage, the Sector Generator, the countries viewer (`countries/`), and static assets — at the root of the zone. See `README.md` for the full app list and deployment details.
 
 ## Deployment
 
@@ -14,6 +14,8 @@ This repo is also the **root site of srd-tools.com** — `index.html` is the hom
 - Pushes to `main` auto-deploy via GitHub Actions (`.github/workflows/deploy.yml` → `wrangler deploy`), gated on the `CLOUDFLARE_API_TOKEN`/`CLOUDFLARE_ACCOUNT_ID` repo secrets.
 - All changes go through a branch + PR — never push directly to `main`.
 - Do not set `assets.html_handling` to `"none"` in `wrangler.jsonc` on this repo: it disables Workers Assets' implicit `/` → `index.html` resolution and 404s the whole root site (this happened once and was reverted).
+
+- `countries/` is the Globetrotter countries viewer (WebAssembly), a build output copied in by `update-countries.ps1` from a Globetrotter checkout: never hand-edit it, rerun the script.
 
 ## Build and Optimization Commands
 
